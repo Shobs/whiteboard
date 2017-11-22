@@ -1,8 +1,8 @@
 <project name="WhiteBoard">
   <property name="dist" value="dist"/>
-  <property name="build" value="build"/>
-  <property name="main.build" value="build/main/java"/>
-  <property name="test.build" value="build/test/java"/>
+  <property name="bin" value="bin"/>
+  <property name="main.bin" value="bin/main/java"/>
+  <property name="test.bin" value="bin/test/java"/>
   <property name="main.src" value="src/main/java"/>
   <property name="test.src" value="src/test/java"/>
   <property name="main.dist" location="dist/main/java"/>
@@ -10,25 +10,25 @@
   <path id="classpath.test">
     <pathelement location="${test.src}/lib/junit-4.12.jar"/>
     <pathelement location="${test.src}/lib/hamcrest-core-1.3.jar"/>
-    <pathelement location="${main.build}"/>
+    <pathelement location="${main.bin}"/>
   </path>
 
   <target name="init">
     <!-- Create the time stamp -->
     <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${main.build}"/>
+    <!-- Create the bin directory structure used by compile -->
+    <mkdir dir="${main.bin}"/>
     <tstamp/>
-    <mkdir dir="${test.build}"/>
+    <mkdir dir="${test.bin}"/>
   </target>
 
   <target name="compile" depends="init"
     description="compile the source">
-    <javac srcdir="${main.src}" destdir="${main.build}" includeantruntime="false"/>
+    <javac srcdir="${main.src}" destdir="${main.bin}" includeantruntime="false"/>
   </target>
 
   <target name="test-compile" depends="compile">
-    <javac srcdir="${test.src}" destdir="${test.build}" includeantruntime="false">
+    <javac srcdir="${test.src}" destdir="${test.bin}" includeantruntime="false">
       <classpath refid="classpath.test"/>
     </javac>
   </target>
@@ -37,7 +37,7 @@
     <junit printsummary="on" haltonfailure="yes" fork="true">
       <classpath>
         <path refid="classpath.test"/>
-        <pathelement location="${test.build}"/>
+        <pathelement location="${test.bin}"/>
       </classpath>
       <formatter type="brief" usefile="false" />
       <batchtest>
@@ -52,18 +52,18 @@
     <mkdir dir="${dist}/lib"/>
 
     <!-- Put everything in ${bin} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/WaitingRoom-${DSTAMP}.jar" basedir="${main.build}"/>
+    <jar jarfile="${dist}/lib/WaitingRoom-${DSTAMP}.jar" basedir="${main.bin}"/>
   </target>
 
   <target name="run" depends="compile"
     description="runs the program">
-    <java classname="WhiteBoard" classpath="${main.build}" />
+    <java classname="WhiteBoard" classpath="${main.bin}" />
   </target>
 
   <target name="clean"
     description="clean up">
-    <!-- Delete the build and dist directory trees -->
+    <!-- Delete the bin and dist directory trees -->
     <delete dir="${dist}"/>
-    <delete dir="${build}"/>
+    <delete dir="${bin}"/>
   </target>
 </project>
