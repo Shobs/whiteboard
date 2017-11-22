@@ -1,4 +1,4 @@
-package whiteboard;
+package main.java;
 
 // import controller;
 // import model;
