@@ -65,17 +65,17 @@ public class DShape implements ModelListener{
 		double topRightX = model.getX() + model.getWidth();
 		double topRightY = topLeftY;
 		double bottomLeftX = topLeftX;
-		double bottomLeftY = model.getY() - model.getHeight();
+		double bottomLeftY = topLeftY + model.getHeight();
 		double bottomRightX = topRightX;
-		double bottomRightY = bottomLeftY;
+		double bottomRightY = topRightY+model.getHeight();
 		//topLeft
-		knobs[0] = new Rectangle((int)topLeftX - 4,(int)topLeftY + 4, width, height);
+		knobs[0] = new Rectangle((int)topLeftX - 4,(int)topLeftY - 4, width, height);
 		//topRight
-		knobs[1] = new Rectangle((int)topRightX - 4, (int)topRightY + 4, width, height);
+		knobs[1] = new Rectangle((int)topRightX - 4, (int)topRightY - 4, width, height);
 		//bottomLeft
-		knobs[2] = new Rectangle((int)bottomLeftX - 4, (int)bottomLeftY + 4, width, height);
+		knobs[2] = new Rectangle((int)bottomLeftX - 4, (int)bottomLeftY - 4, width, height);
 		//bottomRight
-		knobs[3] = new Rectangle((int)bottomRightX - 4, (int)bottomLeftY + 4, width, height);
+		knobs[3] = new Rectangle((int)bottomRightX - 4, (int)bottomLeftY - 4, width, height);
 	}
 
 	public void resize(int knob, Point newPoint){

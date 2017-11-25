@@ -5,13 +5,15 @@ import java.awt.*;
 public class DOval extends DShape{
 	public DOval(DShapeModel model){
 		super.model = model;
+		generateKnobs();
 	}
 
 	@Override
 	public void draw(Graphics g){
-		super.draw(g);
+	
 		g.setColor(model.getColor());
 		g.fillOval((int)model.getX(), (int)model.getY(), (int)model.getWidth(), (int)model.getHeight());
+		super.draw(g);
 	}
 
 	/**
