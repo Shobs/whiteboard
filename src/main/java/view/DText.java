@@ -2,9 +2,6 @@ package main.java.view;
 import main.java.model.*;
 import java.awt.*;
 
-import com.sun.prism.Graphics;
-
-import main.java.model.DShapeModel;
 
 public class DText extends DShape{
 	public DText(DShapeModel model){
@@ -19,7 +16,9 @@ public class DText extends DShape{
 	/**
 	 * @Override
 	 */
-	public void modelChanged(DshapeModel model){
+	public void modelChanged(DShapeModel model){
 		
-	} 
+	}
+
+	
 }
