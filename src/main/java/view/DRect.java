@@ -7,7 +7,8 @@ public class DRect extends DShape{
 
 	@Override
 	public void draw(Graphics g){
-		g.setColor(model.getColor());
+		model.setColor(model.getColor());
+		mode.draw(model);
 	/**
 	 * g.setColor(getColor())
 	 * Rectangle rect = super.getModel().getRectangle();
