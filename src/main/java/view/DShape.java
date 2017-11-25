@@ -11,7 +11,8 @@ public abstract class DShape implements ModelListener{
 	/**
 	 * Method that draws object on canvas
 	 */
-	public abstract void draw();
+	public abstract void draw(Graphics g);
+	
 	/**
 	 * @return a Rectangle object representation of the shape
 	 */
@@ -24,7 +25,7 @@ public abstract class DShape implements ModelListener{
 	 */
 	public void modelChanged(DshapeModel model){
 		model.addListener(model);
-	} // AM I DOING THIS RITE BOIIIIIISSSS????
+	} 
 
 
 	//Setters and Getters

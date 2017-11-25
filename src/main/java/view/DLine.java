@@ -6,7 +6,7 @@ public class DLine extends DShape{
 	}
 
 	@Override
-	public void draw(){
+	public void draw(Graphics g){
 
 	}
 }
