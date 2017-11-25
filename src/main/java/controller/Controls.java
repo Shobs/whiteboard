@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import main.java.model.DOvalModel;
 import main.java.model.DRectModel;
 
 public class Controls  {
@@ -48,7 +49,9 @@ public class Controls  {
 		JButton oval = new JButton("Oval");
 		oval.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				DOvalModel oval = new DOvalModel();
+				canvas.addShape(oval);
+				canvas.paintComponent(canvas.getGraphics());
 
 			}
 		});
