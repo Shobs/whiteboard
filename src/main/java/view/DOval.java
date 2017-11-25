@@ -7,6 +7,8 @@ public class DOval extends DShape{
 
 	@Override
 	public void draw(Graphics g){
-		
+		model.setColor(model.getColor());
+		model.fillOval(model.getX(), model.getY(), model.getWidth(), model.getHeight());
+		model.draw(model);
 	}
 }
