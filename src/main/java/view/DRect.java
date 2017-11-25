@@ -9,6 +9,7 @@ public class DRect extends DShape{
 
 	@Override
 	public void draw(Graphics g){
+		super.draw(g);
 		g.setColor(model.getColor());
 		g.fillRect((int)model.getX(), (int)model.getY(), (int)model.getWidth(), (int)model.getHeight());
 	}

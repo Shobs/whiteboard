@@ -3,7 +3,7 @@ import main.java.model.*;
 import java.awt.*;
 
 
-public abstract class DShape implements ModelListener{
+public class DShape implements ModelListener{
 	protected DShapeModel model; //Data that represents the view
 	protected Rectangle[] knobs = new Rectangle[4]; //Rectangles that indicate the corners of the shape
 	protected boolean knobVisibility; //Determines the visbility of the knob to the user
@@ -11,7 +11,14 @@ public abstract class DShape implements ModelListener{
 	/**
 	 * Method that draws object on canvas
 	 */
-	public abstract void draw(Graphics g);
+	public void draw(Graphics g){
+		if(knobVisibility){
+			for(Rectangle r : knobs){
+				g.setColor(Color.BLUE);
+				g.fillRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
+			}		
+		}
+	}
 	
 	/**
 	 * @return a Rectangle object representation of the shape
@@ -44,6 +51,11 @@ public abstract class DShape implements ModelListener{
 				return i;
 		return -1; 
 	}	
+	
+	public boolean isSelected(Point p)
+	{
+		return model.contains(p);
+	}
 
 
 	public void generateKnobs(){
@@ -64,11 +76,6 @@ public abstract class DShape implements ModelListener{
 		knobs[2] = new Rectangle((int)bottomLeftX - 4, (int)bottomLeftY + 4, width, height);
 		//bottomRight
 		knobs[3] = new Rectangle((int)bottomRightX - 4, (int)bottomLeftY + 4, width, height);
-
-		for(int i = 0; i < knobs.length; i++)
-		{
-//			knobs[i].fill(Color.BLUE);
-		}
 	}
 
 	public void resize(int knob, Point newPoint){
@@ -83,7 +90,7 @@ public abstract class DShape implements ModelListener{
 
 		}
 	}
-
+	
 
 	public void setModel(DShapeModel model){
 		this.model = model;
