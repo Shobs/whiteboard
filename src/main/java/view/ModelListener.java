@@ -1,5 +1,5 @@
 package main.java.view;
 
-interface ModelListener{
+public interface ModelListener{
 
 }
