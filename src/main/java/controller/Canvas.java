@@ -25,18 +25,29 @@ public class Canvas extends JPanel {
 	public Canvas() {
 		super();
 		shapes = new ArrayList<DShape>();
-		
 		setPreferredSize(new Dimension(400, 400));
 		setBackground(Color.WHITE);
 	}
-
-	public void paintComponents()
+	
+	@Override
+	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
+		
 		for(DShape shape : shapes)
 		{
-			Graphics g = super.getGraphics();
+			
+			
+			
 			shape.draw(g);
+			
+//			repaint();
+			
 		}
+		
+		
+		
+		
 	}
 	public void setSelectedShape(DShape shape) {
 		selectedShape = shape;
