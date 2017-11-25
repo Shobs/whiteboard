@@ -1,5 +1,5 @@
 package main.java.view;
-import main.java.model;
+import main.java.model.*;
 import java.awt.*;
 
 
@@ -24,7 +24,7 @@ public abstract class DShape implements ModelListener{
 	 * @Override
 	 */
 	public void modelChanged(DshapeModel model){
-		model.addListener(model);
+		
 	} 
 
 
@@ -72,10 +72,11 @@ public abstract class DShape implements ModelListener{
 	public void resize(int knob, Point newPoint){
 		switch(knob){
 			case 1:
-				
 				break;
 			case 2:
+				break;
 			case 3:
+				break;
 			case 4:
 
 		}
