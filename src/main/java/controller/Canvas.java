@@ -82,16 +82,24 @@ public class Canvas extends JPanel implements MouseListener {
 	
 	public void addShape(DShapeModel model) {
 		if (model instanceof DRectModel) {
-			shapes.add(new DRect(model));
+			DRect rect = new DRect(model);
+			shapes.add(rect);
+			model.addListener(rect);
 			
 		} else if (model instanceof DOvalModel) {
-			shapes.add(new DOval(model));
+			DOval ov = new DOval(model);
+			shapes.add(ov);
+			model.addListener(ov);;
 			
 		} else if (model instanceof DLineModel) {
-			shapes.add(new DLine(model));
+			DLine ln = new DLine(model);
+			shapes.add(ln);
+			model.addListener(ln);;
 			
 		} else if (model instanceof DTextModel) {
-			shapes.add(new DText(model));
+			DText tx = new DText(model);
+			shapes.add(tx);
+			model.addListener(tx);
 			
 		} else {
 			System.out.println("none of the above");
@@ -102,18 +110,6 @@ public class Canvas extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		Point p = e.getPoint();
-		for(DShape d: shapes)
-		{
-			if(d.isSelected(p))
-			{
-				
-				selectedShape = d;
-				selectedShape.getModel().setColor(Color.red);
-				paintComponent(getGraphics());
-			}
-		}
-		System.out.println("it is working");
 	}
 
 	@Override

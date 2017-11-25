@@ -7,18 +7,24 @@ public class DShape implements ModelListener{
 	protected DShapeModel model; //Data that represents the view
 	protected Rectangle[] knobs = new Rectangle[4]; //Rectangles that indicate the corners of the shape
 	protected boolean knobVisibility; //Determines the visbility of the knob to the user
+	
 
 	/**
 	 * Method that draws object on canvas
 	 */
 	public void draw(Graphics g){
 		if(knobVisibility){
+			
 			for(Rectangle r : knobs){
 				g.setColor(Color.BLUE);
 				g.fillRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
 			}		
 		}
+		
 	}
+	
+	
+	
 	
 	/**
 	 * @return a Rectangle object representation of the shape

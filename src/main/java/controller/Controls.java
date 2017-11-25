@@ -1,5 +1,6 @@
 package main.java.controller;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -80,7 +81,7 @@ public class Controls  {
 		JButton setColor = new JButton("setColor");
 		setColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				canvas.selectedShape.getModel().setColor(Color.GREEN);
 			}
 
 		});

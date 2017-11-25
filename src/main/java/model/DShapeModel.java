@@ -3,6 +3,8 @@ package main.java.model;
 import java.awt.Rectangle;
 import java.awt.Color;
 import java.util.ArrayList;
+
+import main.java.view.DShape;
 import main.java.view.ModelListener;
 
 public class DShapeModel extends Rectangle {
@@ -57,10 +59,14 @@ public class DShapeModel extends Rectangle {
 
     public void setColor(Color c){
         this.c = c;
+        notifyListeners();
     }
 
     public void notifyListeners(){
-
+    	for(ModelListener d : mls )
+    	{
+    		d.modelChanged(this);
+    	}
     }
 
 
