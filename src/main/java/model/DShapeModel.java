@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import main.java.view.ModelListener;
 
-public class DShapeModel extends Rectangle implements ModelListener{
+public class DShapeModel extends Rectangle {
 
     private Color c;
 
