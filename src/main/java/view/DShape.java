@@ -23,7 +23,7 @@ public abstract class DShape implements ModelListener{
 	/**
 	 * @Override
 	 */
-	public void modelChanged(DshapeModel model){
+	public void modelChanged(DShapeModel model){
 		
 	} 
 
@@ -66,7 +66,9 @@ public abstract class DShape implements ModelListener{
 		knobs[3] = new Rectangle((int)bottomRightX - 4, (int)bottomLeftY + 4, width, height);
 
 		for(int i = 0; i < knobs.length; i++)
-			knobs[i].fill(Color.BLUE);
+		{
+//			knobs[i].fill(Color.BLUE);
+		}
 	}
 
 	public void resize(int knob, Point newPoint){

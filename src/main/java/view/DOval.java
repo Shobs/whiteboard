@@ -16,7 +16,7 @@ public class DOval extends DShape{
 	/**
 	 * @Override
 	 */
-	public void modelChanged(DshapeModel model){
+	public void modelChanged(DShapeModel model){
 		
 	} 
 }

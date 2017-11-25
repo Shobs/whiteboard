@@ -2,6 +2,7 @@ package main.java.view;
 import main.java.model.*;
 import java.awt.*;
 
+
 public class DText extends DShape{
 	public DText(DShapeModel model){
 		super.model = model;
@@ -15,7 +16,9 @@ public class DText extends DShape{
 	/**
 	 * @Override
 	 */
-	public void modelChanged(DshapeModel model){
+	public void modelChanged(DShapeModel model){
 		
-	} 
+	}
+
+	
 }

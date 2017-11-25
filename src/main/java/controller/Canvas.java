@@ -1,7 +1,7 @@
 package main.java.controller;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
+
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -25,7 +25,7 @@ public class Canvas extends JPanel {
 	public Canvas() {
 		super();
 		shapes = new ArrayList<DShape>();
-		selectedShape = shapes.get(shapes.size() - 1);
+		
 		setPreferredSize(new Dimension(400, 400));
 		setBackground(Color.WHITE);
 	}
@@ -34,7 +34,8 @@ public class Canvas extends JPanel {
 	{
 		for(DShape shape : shapes)
 		{
-			shape.draw();
+			Graphics g = super.getGraphics();
+			shape.draw(g);
 		}
 	}
 	public void setSelectedShape(DShape shape) {
