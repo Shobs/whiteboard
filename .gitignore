@@ -230,3 +230,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/java,macos,windows,eclipse,intellij,sublimetext
+src/main/java/view/DLine_BACKUP_17664.java
+src/main/java/view/DLine_BASE_17664.java
+src/main/java/view/DLine_LOCAL_17664.java
+src/main/java/view/DLine_REMOTE_17664.java
