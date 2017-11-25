@@ -1,4 +1,5 @@
 <project name="WhiteBoard">
+  <property name="classname" value="main.java.WhiteBoard"/>
   <property name="dist" value="dist"/>
   <property name="bin" value="bin"/>
   <property name="main.bin" value="bin/main/java"/>
@@ -17,18 +18,18 @@
     <!-- Create the time stamp -->
     <tstamp/>
     <!-- Create the bin directory structure used by compile -->
-    <mkdir dir="${main.bin}"/>
-    <tstamp/>
-    <mkdir dir="${test.bin}"/>
+    <mkdir dir="${bin}"/>
+    <!-- <tstamp/> -->
+    <!-- <mkdir dir="${test.bin}"/> -->
   </target>
 
   <target name="compile" depends="init"
     description="compile the source">
-    <javac srcdir="${main.src}" destdir="${main.bin}" includeantruntime="false"/>
+    <javac srcdir="${main.src}" destdir="${bin}" includeantruntime="false"/>
   </target>
 
   <target name="test-compile" depends="compile">
-    <javac srcdir="${test.src}" destdir="${test.bin}" includeantruntime="false">
+    <javac srcdir="${test.src}" destdir="${bin}" includeantruntime="false">
       <classpath refid="classpath.test"/>
     </javac>
   </target>
@@ -46,19 +47,21 @@
     </junit>
   </target>
 
-  <target name="dist" depends="compile"
+  <target name="jar" depends="compile"
     description="generate the distribution">
     <!-- Create the distribution directory -->
-    <mkdir dir="${dist}/lib"/>
+    <mkdir dir="${dist}"/>
 
     <!-- Put everything in ${bin} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/WaitingRoom-${DSTAMP}.jar" basedir="${main.bin}"/>
+    <jar jarfile="${dist}/WhiteBoard-${DSTAMP}.jar" basedir="${main.bin}"/>
   </target>
 
   <target name="run" depends="compile"
     description="runs the program">
-    <java classname="WhiteBoard" classpath="${main.bin}" />
+    <java classname="${classname}" classpath="${bin}" />
   </target>
+
+
 
   <target name="clean"
     description="clean up">
