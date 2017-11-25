@@ -36,12 +36,7 @@ public class Canvas extends JPanel {
 		
 		for(DShape shape : shapes)
 		{
-			
-			
-			
 			shape.draw(g);
-			
-//			repaint();
 			
 		}
 		
