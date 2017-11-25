@@ -10,13 +10,13 @@ public class DRect extends DShape{
 	@Override
 	public void draw(Graphics g){
 		g.setColor(model.getColor());
-		g.fillRect((int)model.getX(), (int)model.getY(), (int)model.getWdith(), (int)model.getHeight());
+		g.fillRect((int)model.getX(), (int)model.getY(), (int)model.getWidth(), (int)model.getHeight());
 	}
 
 	/**
 	 * @Override
 	 */
-	public void modelChanged(DshapeModel model){
+	public void modelChanged(DShapeModel model){
 		
 	} 
 }
