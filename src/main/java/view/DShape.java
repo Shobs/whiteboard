@@ -1,10 +1,6 @@
 package main.java.view;
-
+import main.java.model.*;
 import java.awt.*;
-
-import com.sun.prism.Graphics;
-
-import main.java.model.DShapeModel;
 
 
 public abstract class DShape implements ModelListener{
@@ -15,10 +11,7 @@ public abstract class DShape implements ModelListener{
 	/**
 	 * Method that draws object on canvas
 	 */
-//	public void draw(Graphics g)
-//	{
-//		
-//	}
+	public abstract void draw(Graphics g);
 	
 	/**
 	 * @return a Rectangle object representation of the shape
@@ -30,7 +23,7 @@ public abstract class DShape implements ModelListener{
 	/**
 	 * @Override
 	 */
-	public void modelChanged(DShapeModel model){
+	public void modelChanged(DshapeModel model){
 		
 	} 
 
@@ -73,19 +66,17 @@ public abstract class DShape implements ModelListener{
 		knobs[3] = new Rectangle((int)bottomRightX - 4, (int)bottomLeftY + 4, width, height);
 
 		for(int i = 0; i < knobs.length; i++)
-		{
-//			knobs[i].fill(Color.BLUE);
-		}
-
+			knobs[i].fill(Color.BLUE);
 	}
 
 	public void resize(int knob, Point newPoint){
 		switch(knob){
 			case 1:
-				
 				break;
 			case 2:
+				break;
 			case 3:
+				break;
 			case 4:
 
 		}
@@ -111,6 +102,4 @@ public abstract class DShape implements ModelListener{
 	public boolean getKnobVisibility(){
 		return knobVisibility;
 	}
-
-	
 }

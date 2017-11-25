@@ -1,24 +1,22 @@
 package main.java.view;
-
-import com.sun.prism.Graphics;
+import main.java.model.*;
 import java.awt.*;
-import main.java.model.DShapeModel;
 
 public class DOval extends DShape{
 	public DOval(DShapeModel model){
 		super.model = model;
 	}
-	
-	
-	public void draw(Graphics g){
-		((DShapeModel) g).setColor(model.getColor());
-		g.fillOval((int)model.getX(),(int) model.getY(),(int) model.getWidth(), (int)model.getHeight());
-		
-	}
-	
+
 	@Override
-	public void modelChanged(DShapeModel model) {
-		// TODO Auto-generated method stub
-		
+	public void draw(Graphics g){
+		g.setColor(model.getColor());
+		g.fillOval((int)model.getX(), (int)model.getY(), (int)model.getWdith(), (int)model.getHeight());
 	}
+
+	/**
+	 * @Override
+	 */
+	public void modelChanged(DshapeModel model){
+		
+	} 
 }

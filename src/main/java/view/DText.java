@@ -1,4 +1,6 @@
 package main.java.view;
+import main.java.model.*;
+import java.awt.*;
 
 import com.sun.prism.Graphics;
 
@@ -13,4 +15,11 @@ public class DText extends DShape{
 	public void draw(Graphics g){
 
 	}
+
+	/**
+	 * @Override
+	 */
+	public void modelChanged(DshapeModel model){
+		
+	} 
 }
