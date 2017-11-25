@@ -12,8 +12,8 @@ public class DShapeModel extends Rectangle {
     private ArrayList<ModelListener> mls;
 
     public DShapeModel(){
-        height = 10;
-        width = 10;
+        height = 100;
+        width = 100;
         x = 0;
         y = 0;
         c = new Color(128, 128, 128);

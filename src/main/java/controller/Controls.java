@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import main.java.model.DRectModel;
+
 public class Controls  {
 	Canvas canvas;
 
@@ -35,7 +37,9 @@ public class Controls  {
 
 		Rect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				DRectModel rect = new DRectModel();
+				canvas.addShape(rect);
+				canvas.paintComponent(canvas.getGraphics());
 
 			}
 		});
