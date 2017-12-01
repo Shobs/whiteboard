@@ -30,6 +30,19 @@ public class DShape implements ModelListener{
 	}
 	
 	
+	public boolean contains(Point p)
+	{
+		boolean r = getBounds().contains(p);
+		
+		if(r == false)
+		{
+		for(Rectangle rec : knobs)
+		{
+			 r = rec.getBounds().contains(p);
+		}
+		}
+		return r;
+	}
 	
 	/**
 	 * @return a Rectangle object representation of the shape
