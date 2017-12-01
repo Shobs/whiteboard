@@ -69,38 +69,34 @@ public class Canvas extends JPanel implements MouseInputListener {
 	public void mousePressed(MouseEvent e) {
 
 		Point p = e.getPoint();
-		
-		
+		if(selectedShape != null )
+		{
+			selectedShape.setKnobVisibility(false);
+			
+		}
 		for (DShape d : shapes) {
 			
-			if(selectedShape != null && !selectedShape.isSelected(p))
+			if(d.isSelected(p))
+			{
+				selectedShape = d;
+				selectedKnob = selectedShape.isKnob(e.getPoint());
+				break;
+			}else
 			{
 				selectedShape.setKnobVisibility(false);
 			}
-			if (d.isSelected(p) ) {
-				
-				
-				selectedShape = d;
-				selectedShape.setKnobVisibility(true);
-				paintComponent(getGraphics());
-				width = e.getX() - selectedShape.getModel().getX();
-				height = e.getY() - selectedShape.getModel().getY();
-				selectedKnob = selectedShape.isKnob(e.getPoint());
-				
-		}
-			
-			
-		//		else
-//			{
-//			
-//				selectedShape.setKnobVisibility(false);
-//				selectedKnob = -1;
-//				selectedShape = null;
-//			}
-			
 		}
 		
 		
+		
+		if(selectedShape != null )
+		{
+			
+			selectedShape.setKnobVisibility(true);
+			paintComponent(getGraphics());
+			width = e.getX() - selectedShape.getModel().getX();
+			height = e.getY() - selectedShape.getModel().getY();
+		}
 		
 		
 		repaint();
@@ -138,16 +134,16 @@ public class Canvas extends JPanel implements MouseInputListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(selectedShape != null)
-		{
-		selectedKnob = selectedShape.isKnob(e.getPoint());
+		if (selectedShape != null) {
+			selectedKnob = selectedShape.isKnob(e.getPoint());
+			
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -160,15 +156,12 @@ public class Canvas extends JPanel implements MouseInputListener {
 	public void mouseDragged(MouseEvent e) {
 		if (selectedShape != null) {
 
-		
-			boolean changed = false;
+			
 			if (selectedKnob != -1) {
-				changed = true;
 				selectedShape.resize(selectedKnob, e.getPoint());
-			}  
-			else {
-				
-					moveSelectedShape(e);
+			} else {
+
+				moveSelectedShape(e);
 
 			}
 			repaint();
@@ -185,7 +178,7 @@ public class Canvas extends JPanel implements MouseInputListener {
 		selectedShape.getModel().setY((int) (pm.getY() - height));
 
 		selectedShape.generateKnobs();
-		
+
 	}
 
 	@Override

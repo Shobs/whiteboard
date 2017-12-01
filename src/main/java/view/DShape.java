@@ -29,7 +29,7 @@ public class DShape implements ModelListener{
 		return isChanged;
 	}
 	
-	
+	/*
 	public boolean contains(Point p)
 	{
 		boolean r = getBounds().contains(p);
@@ -44,6 +44,7 @@ public class DShape implements ModelListener{
 		return r;
 	}
 	
+	*/
 	/**
 	 * @return a Rectangle object representation of the shape
 	 */
