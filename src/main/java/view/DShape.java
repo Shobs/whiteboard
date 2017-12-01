@@ -8,32 +8,37 @@ public class DShape implements ModelListener{
 	protected DShapeModel model; //Data that represents the view
 	protected Rectangle[] knobs = new Rectangle[4]; //Rectangles that indicate the corners of the shape
 	protected boolean knobVisibility; //Determines the visbility of the knob to the user
-	
+
 
 	/**
 	 * Method that draws object on canvas
 	 */
 	public void draw(Graphics g){
 		if(knobVisibility){
-			
+
 			for(Rectangle r : knobs){
 				g.setColor(Color.BLUE);
 				g.fillRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
-			}		
+			}
 		}
-		
+
 	}
-	
+
 	public boolean getIsChanged()
 	{
 		return isChanged;
 	}
-	
+
+	public void setIsChanged(boolean c)
+	{
+		isChanged = c;
+	}
+
 	/*
 	public boolean contains(Point p)
 	{
 		boolean r = getBounds().contains(p);
-		
+
 		if(r == false)
 		{
 		for(Rectangle rec : knobs)
@@ -43,7 +48,7 @@ public class DShape implements ModelListener{
 		}
 		return r;
 	}
-	
+
 	*/
 	/**
 	 * @return a Rectangle object representation of the shape
@@ -56,8 +61,8 @@ public class DShape implements ModelListener{
 	 * @Override
 	 */
 	public void modelChanged(DShapeModel model){
-		
-	} 
+
+	}
 
 
 	//Setters and Getters
@@ -74,18 +79,18 @@ public class DShape implements ModelListener{
 		for(int i = 0; i < knobs.length; i++)
 			if(knobs[i].contains(p))
 				return i;
-		return -1; 
-	}	
-	
+		return -1;
+	}
+
 	public boolean isSelected(Point p)
 	{
 		return model.contains(p);
 	}
 
 
-	
+
 	public void generateKnobs(){
-		
+
 		int width = 8, height = 8;
 		double topLeftX = model.getX();
 		double topLeftY = model.getY();
@@ -119,7 +124,7 @@ public class DShape implements ModelListener{
 				generateKnobs();
 		}
 	}
-	
+
 
 	public void setModel(DShapeModel model){
 		this.model = model;
