@@ -110,7 +110,9 @@ public class DShape implements ModelListener{
 		knobs[3] = new Rectangle((int)bottomRightX - 4, (int)bottomLeftY - 4, width, height);
 	}
 
-	public void resize(int knob, Point newPoint){
+	public Rectangle resize(int knob, Point mPoint, Point rPoint){
+
+		int q = getQuadrant(Point);
 		switch(knob){
 			case 0:
 				break;
@@ -138,13 +140,31 @@ public class DShape implements ModelListener{
 					model.setY((int) model.getMinY());
 					model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
 				}
-				
-				
+
+
 				//model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
 				System.out.println(model.getX() + "  "+ model.getY());
-				
+
 				//model.setBounds((int)model.getBounds().getMinX(),(int) (model.getBounds().getMinY()), (int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
 				generateKnobs();
+		}
+	}
+
+	public int getQuadrant(Point rPoint, Point mPoint)
+	{
+		int q = 0;
+		if (mPoint.getY() > rPoint.getY() ) {
+			if (mPoint.getX() > rPoint.getX()) {
+				q = 1;
+			} else {
+				q = 2;
+			}
+		} else {
+			if (mPoint.getX() < rPoint.getX()) {
+				q = 3;
+			} else {
+				q = 4;
+			}
 		}
 	}
 
