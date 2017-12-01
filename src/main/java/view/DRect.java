@@ -2,6 +2,8 @@ package main.java.view;
 import main.java.model.*;
 import java.awt.*;
 
+import com.sun.xml.internal.ws.api.Component;
+
 public class DRect extends DShape{
 	Graphics g;
 	public DRect(DShapeModel model){
@@ -21,9 +23,7 @@ public class DRect extends DShape{
 	/**
 	 * @Override
 	 */
-	public void modelChanged(DShapeModel model){
-		g.setColor(Color.GREEN);
-		g.fillRect((int)model.getX()+20, (int)model.getY()+20, (int)model.getWidth(), (int)model.getHeight());
-		System.out.println("model Changed");
+	public void modelChanged(DShapeModel mod){
+		isChanged = true;
 	} 
 }

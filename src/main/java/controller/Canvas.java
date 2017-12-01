@@ -8,9 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-
-
+import javax.swing.event.MouseInputListener;
 
 import main.java.model.DLineModel;
 import main.java.model.DOvalModel;
@@ -23,16 +21,32 @@ import main.java.view.DRect;
 import main.java.view.DShape;
 import main.java.view.DText;
 
-public class Canvas extends JPanel implements MouseListener {
+public class Canvas extends JPanel implements MouseInputListener {
 	ArrayList<DShape> shapes;
 	DShape selectedShape=null;
+	double width ;
+	double height;
 
 	public Canvas() {
 		super();
 		shapes = new ArrayList<DShape>();
 		setPreferredSize(new Dimension(400, 400));
 		setBackground(Color.WHITE);
+		addMouseMotionListener(this);
 		addMouseListener(this);
+	}
+	
+	@Override
+	public void repaint()
+	{
+			if(selectedShape != null)
+			{
+			if(selectedShape.getIsChanged() )
+			{
+				super.repaint();
+			}
+			}
+		
 	}
 	
 	@Override
@@ -55,6 +69,7 @@ public class Canvas extends JPanel implements MouseListener {
 		return selectedShape;
 	}
 	
+	@Override
 	public void mousePressed(MouseEvent e) {
 		
 		Point p = e.getPoint();
@@ -64,15 +79,16 @@ public class Canvas extends JPanel implements MouseListener {
 			{
 				if(selectedShape != null){
 					selectedShape.setKnobVisibility(false);
-					selectedShape.getModel().setColor(Color.GRAY);
 				}
 				selectedShape = d;
 				selectedShape.setKnobVisibility(true);
-//				selectedShape = d;
-				d.getModel().setColor(Color.red);
 				paintComponent(getGraphics());
+				 width = e.getX() - selectedShape.getModel().getX();
+				 height = e.getY() -selectedShape.getModel().getY();
 			}
 		}
+		
+		
 		
 	}
 	
@@ -123,9 +139,34 @@ public class Canvas extends JPanel implements MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override 
+	public void mouseDragged(MouseEvent e)
+	{
+		if(selectedShape != null)
+		{
+			System.out.println("it is working");
+			Point pm = e.getPoint();
+			Point ps = new Point();
+			ps.setLocation(selectedShape.getBounds().getX(), selectedShape.getBounds().getY());
+			
+			
+			selectedShape.getModel().setX( (int) (pm.getX()-width));
+			selectedShape.getModel().setY( (int) (pm.getY()-height));
+			
+			System.out.println(pm.getX() +"    "+ pm.getY()+"    "+ selectedShape.getModel().x);
+			selectedShape.generateKnobs();
+			repaint();
+		}
+	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

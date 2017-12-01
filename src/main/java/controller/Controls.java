@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +24,8 @@ public class Controls  {
 	public Controls(Canvas c) {
 		canvas = c;
 	}
+	
+
 
 	public JPanel createButtons() {
 		JPanel container = new JPanel(); // main VerticalBox which contains all
@@ -81,7 +84,13 @@ public class Controls  {
 		JButton setColor = new JButton("setColor");
 		setColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				canvas.selectedShape.getModel().setColor(Color.GREEN);
+				Color initialBackground = canvas.selectedShape.getModel().getColor();
+		        Color background = JColorChooser.showDialog(null,
+		            "JColorChooser Sample", initialBackground);
+				canvas.selectedShape.getModel().setColor(background);
+				
+				canvas.repaint();
+				
 			}
 
 		});

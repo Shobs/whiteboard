@@ -22,8 +22,6 @@ public class DOval extends DShape{
 	 * @Override
 	 */
 	public void modelChanged(DShapeModel model){
-		g.setColor(model.getColor());
-		g.fillOval((int)model.getX(), (int)model.getY(), (int)model.getWidth(), (int)model.getHeight());
-		System.out.println("model Changed");
+		isChanged = true;
 	} 
 }
