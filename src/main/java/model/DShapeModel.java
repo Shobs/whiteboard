@@ -81,7 +81,16 @@ public class DShapeModel extends Rectangle {
     		d.modelChanged(this);
     	}
     }
+    public void resize(int Xm, int Ym, int Xa, int Ya) {
+		int x = Math.min(Xm, Xa);
+		int y = Math.min(Ym, Ya);
+		int width = (Math.abs(Xm - Xa));
+		int height = Math.abs(Ym - Ya);
 
+		setLocation(x, y);
+		setSize(width, height);
+		notifyListeners();
+	}
 
 
 

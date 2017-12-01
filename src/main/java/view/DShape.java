@@ -105,43 +105,36 @@ public class DShape implements ModelListener{
 		knobs[3] = new Rectangle((int)bottomRightX - 4, (int)bottomLeftY - 4, width, height);
 	}
 
-	public void resize(int knob, Point newPoint){
-		switch(knob){
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				isChanged = true;
-				if(newPoint.getX()-model.getX() < 0)
-				{
-					model.setX((int) newPoint.getX());
-					model.setSize((int)(model.getX()-newPoint.getX()), (int)(newPoint.getY() - model.getY()));
-				}else
-				{
-					model.setX((int) model.getMinX());
-					model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
-				}
-				if(newPoint.getY() - model.getY() < 0)
-				{
-					model.setX((int) newPoint.getY());
-					model.setSize((int)(model.getX()-newPoint.getX()), (int)( model.getY()- newPoint.getY() ));
-				}else
-				{
-					model.setY((int) model.getMinY());
-					model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
-				}
-				
-				
-				//model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
-				System.out.println(model.getX() + "  "+ model.getY());
-				
-				//model.setBounds((int)model.getBounds().getMinX(),(int) (model.getBounds().getMinY()), (int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
-				generateKnobs();
-		}
+//	public void resize(int quadrant, Point mPoint, Point rPoint){
+//		switch(quadrant){
+//			case 1:
+//				// y changes
+//				// width changes
+//				break;
+//			case 2:
+//				//
+//				break;
+//			case 3:
+//				break;
+//			case 4:
+//				isChanged = true;
+//
+//				
+//				
+//				
+//				
+//				//model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
+//				System.out.println(model.getX() + "  "+ model.getY());
+//				
+//				//model.setBounds((int)model.getBounds().getMinX(),(int) (model.getBounds().getMinY()), (int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
+//				generateKnobs();
+//		}
+//	}
+	
+	public void resize(int Xm, int Ym, int Xa, int Ya) {
+		model.resize(Xm, Ym, Xa, Ya);
 	}
+
 	
 
 	public void setModel(DShapeModel model){

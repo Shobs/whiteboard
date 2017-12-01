@@ -26,6 +26,7 @@ public class Canvas extends JPanel implements MouseInputListener {
 	double width;
 	double height;
 	int selectedKnob = -1;
+	
 
 	public Canvas() {
 		super();
@@ -154,7 +155,13 @@ public class Canvas extends JPanel implements MouseInputListener {
 
 			
 			if (selectedKnob != -1) {
-				selectedShape.resize(selectedKnob, e.getPoint());
+				
+				
+				Rectangle r = selectedShape.getKnobs()[0];
+				int x = (int) r.getX();
+				int y = (int) r.getY();
+				selectedShape.resize(e.getX(),e.getY(),x,y);
+//				selectedShape.generateKnobs();
 			} else {
 
 				moveSelectedShape(e);
