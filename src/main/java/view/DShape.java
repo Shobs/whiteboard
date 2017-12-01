@@ -93,14 +93,16 @@ public class DShape implements ModelListener{
 
 	public void resize(int knob, Point newPoint){
 		switch(knob){
+			case 0:
+				break;
 			case 1:
 				break;
 			case 2:
 				break;
 			case 3:
-				break;
-			case 4:
-
+				isChanged = true;
+				model.setBounds((int)model.getBounds().getX(),(int) (model.getBounds().getY()), (int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
+				generateKnobs();
 		}
 	}
 	
@@ -119,6 +121,7 @@ public class DShape implements ModelListener{
 
 	public void setKnobVisibility(boolean visibility){
 		knobVisibility = visibility;
+		this.isChanged = true;
 	}
 
 	public boolean getKnobVisibility(){
