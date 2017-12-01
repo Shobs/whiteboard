@@ -2,7 +2,7 @@ package main.java.view;
 import main.java.model.*;
 import java.awt.*;
 
-import com.sun.xml.internal.ws.api.Component;
+// import com.sun.xml.internal.ws.api.Component;
 
 public class DRect extends DShape{
 	Graphics g;
@@ -19,11 +19,11 @@ public class DRect extends DShape{
 		super.draw(g);
 	}
 
-	
+
 	/**
 	 * @Override
 	 */
 	public void modelChanged(DShapeModel mod){
 		isChanged = true;
-	} 
+	}
 }
