@@ -120,7 +120,30 @@ public class DShape implements ModelListener{
 				break;
 			case 3:
 				isChanged = true;
-				model.setBounds((int)model.getBounds().getX(),(int) (model.getBounds().getY()), (int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
+				if(newPoint.getX()-model.getX() < 0)
+				{
+					model.setX((int) newPoint.getX());
+					model.setSize((int)(model.getX()-newPoint.getX()), (int)(newPoint.getY() - model.getY()));
+				}else
+				{
+					model.setX((int) model.getMinX());
+					model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
+				}
+				if(newPoint.getY() - model.getY() < 0)
+				{
+					model.setX((int) newPoint.getY());
+					model.setSize((int)(model.getX()-newPoint.getX()), (int)( model.getY()- newPoint.getY() ));
+				}else
+				{
+					model.setY((int) model.getMinY());
+					model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
+				}
+				
+				
+				//model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
+				System.out.println(model.getX() + "  "+ model.getY());
+				
+				//model.setBounds((int)model.getBounds().getMinX(),(int) (model.getBounds().getMinY()), (int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
 				generateKnobs();
 		}
 	}
