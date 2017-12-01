@@ -1,24 +1,12 @@
 package main.java.controller;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.event.MouseInputListener;
-
-import main.java.model.DLineModel;
-import main.java.model.DOvalModel;
-import main.java.model.DRectModel;
-import main.java.model.DShapeModel;
-import main.java.model.DTextModel;
-import main.java.view.DLine;
-import main.java.view.DOval;
-import main.java.view.DRect;
-import main.java.view.DShape;
-import main.java.view.DText;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import main.java.model.*;
+import main.java.view.*;
 
 public class Canvas extends JPanel implements MouseInputListener {
 	ArrayList<DShape> shapes;
@@ -91,7 +79,6 @@ public class Canvas extends JPanel implements MouseInputListener {
 		
 		if(selectedShape != null )
 		{
-			
 			selectedShape.setKnobVisibility(true);
 			paintComponent(getGraphics());
 			width = e.getX() - selectedShape.getModel().getX();
