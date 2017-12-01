@@ -38,11 +38,11 @@ public class Canvas extends JPanel implements MouseInputListener {
 
 	@Override
 	public void repaint() {
-		if (selectedShape != null) {
-			if (selectedShape.getIsChanged()) {
+//		if (selectedShape != null) {
+//			if (selectedShape.getIsChanged()) {
 				super.repaint();
-			}
-		}
+//			}
+//		}
 
 	}
 
@@ -72,7 +72,6 @@ public class Canvas extends JPanel implements MouseInputListener {
 		if(selectedShape != null )
 		{
 			selectedShape.setKnobVisibility(false);
-			
 		}
 		for (DShape d : shapes) {
 			
@@ -80,10 +79,7 @@ public class Canvas extends JPanel implements MouseInputListener {
 			{
 				selectedShape = d;
 				selectedKnob = selectedShape.isKnob(e.getPoint());
-				break;
-			}else
-			{
-				selectedShape.setKnobVisibility(false);
+				
 			}
 		}
 		
