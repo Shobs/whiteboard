@@ -1,5 +1,5 @@
 <project name="WhiteBoard">
-  <property name="classname" value="main.java.WhiteBoard"/>
+  <property name="classname" value="main.java.Whiteboard"/>
   <property name="dist" value="dist"/>
   <property name="bin" value="bin"/>
   <property name="main.bin" value="bin/main/java"/>
@@ -58,7 +58,7 @@
 
   <target name="run" depends="compile"
     description="runs the program">
-    <java classname="${classname}" classpath="${bin}" />
+    <java fork="true" classname="${classname}" classpath="${bin}/" />
   </target>
 
 
