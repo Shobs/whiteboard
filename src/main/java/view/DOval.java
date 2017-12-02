@@ -6,7 +6,7 @@ public class DOval extends DShape{
 	Graphics g ;
 	public DOval(DShapeModel model){
 		super.model = model;
-		generateKnobs();
+		generateKnobs((int)model.getX(),(int)model.getY(),(int)model.getWidth(),(int)model.getHeight());
 	}
 
 	@Override

@@ -1,183 +1,163 @@
 package main.java.view;
+
 import main.java.model.*;
 import java.awt.*;
 
-
-public class DShape implements ModelListener{
+public class DShape implements ModelListener {
 	protected boolean isChanged = false;
-	protected DShapeModel model; //Data that represents the view
-	protected Rectangle[] knobs = new Rectangle[4]; //Rectangles that indicate the corners of the shape
-	protected boolean knobVisibility; //Determines the visbility of the knob to the user
-
+	protected DShapeModel model; // Data that represents the view
+	protected Rectangle[] knobs = new Rectangle[4]; // Rectangles that indicate
+													// the corners of the shape
+	protected boolean knobVisibility; // Determines the visbility of the knob to
+										// the user
 
 	/**
 	 * Method that draws object on canvas
 	 */
-	public void draw(Graphics g){
-		if(knobVisibility){
+	public void draw(Graphics g) {
+		if (knobVisibility) {
 
-			for(Rectangle r : knobs){
+			for (Rectangle r : knobs) {
 				g.setColor(Color.BLUE);
-				g.fillRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
+				g.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 			}
 		}
 
 	}
 
-	public boolean getIsChanged()
-	{
+	public boolean getIsChanged() {
 		return isChanged;
 	}
 
-	public void setIsChanged(boolean c)
-	{
+	public void setIsChanged(boolean c) {
 		isChanged = c;
 	}
 
-	/*
-	public boolean contains(Point p)
-	{
+	public boolean contains(Point p) {
 		boolean r = getBounds().contains(p);
 
-		if(r == false)
-		{
-		for(Rectangle rec : knobs)
-		{
-			 r = rec.getBounds().contains(p);
-		}
+		if (r == false) {
+			for (Rectangle rec : knobs) {
+				r = rec.getBounds().contains(p);
+			}
 		}
 		return r;
 	}
 
-	*/
 	/**
 	 * @return a Rectangle object representation of the shape
 	 */
-	public Rectangle getBounds(){
+	public Rectangle getBounds() {
 		return model.getBounds();
 	}
 
 	/**
 	 * @Override
 	 */
-	public void modelChanged(DShapeModel model){
+	public void modelChanged(DShapeModel model) {
 
 	}
 
-
-	//Setters and Getters
-	public DShapeModel getModel(){
+	// Setters and Getters
+	public DShapeModel getModel() {
 		return model;
 	}
 
 	/**
 	 * Checks if point on canvas is on a knob
-	 * @param  p is the point to be checked
+	 * 
+	 * @param p
+	 *            is the point to be checked
 	 * @return the index of the knob which contains the point
 	 */
-	public int isKnob(Point p){
-		for(int i = 0; i < knobs.length; i++)
-			if(knobs[i].contains(p))
+	public int isKnob(Point p) {
+		for (int i = 0; i < knobs.length; i++)
+			if (knobs[i].contains(p))
 				return i;
 		return -1;
 	}
 
-	public boolean isSelected(Point p)
-	{
+	public boolean isSelected(Point p) {
 		return model.contains(p);
 	}
 
+	public void generateKnobs(int x, int y, int width, int height) {
 
-
-	public void generateKnobs(){
-
-		int width = 8, height = 8;
-		double topLeftX = model.getX();
-		double topLeftY = model.getY();
-		double topRightX = model.getX() + model.getWidth();
+		int w = 8, h = 8;
+		double topLeftX = x;
+		double topLeftY = y;
+		double topRightX = x + width;
 		double topRightY = topLeftY;
 		double bottomLeftX = topLeftX;
-		double bottomLeftY = topLeftY + model.getHeight();
+		double bottomLeftY = topLeftY + height;
 		double bottomRightX = topRightX;
-		double bottomRightY = topRightY+model.getHeight();
-		//topLeft
-		knobs[0] = new Rectangle((int)topLeftX - 4,(int)topLeftY - 4, width, height);
-		//topRight
-		knobs[1] = new Rectangle((int)topRightX - 4, (int)topRightY - 4, width, height);
-		//bottomLeft
-		knobs[2] = new Rectangle((int)bottomLeftX - 4, (int)bottomLeftY - 4, width, height);
-		//bottomRight
-		knobs[3] = new Rectangle((int)bottomRightX - 4, (int)bottomLeftY - 4, width, height);
+		double bottomRightY = topRightY + height;
+		// topLeft
+		knobs[0] = new Rectangle((int) topLeftX - 4, (int) topLeftY - 4, w, h);
+		// topRight
+		knobs[1] = new Rectangle((int) topRightX - 4, (int) topRightY - 4, w, h);
+		// bottomLeft
+		knobs[2] = new Rectangle((int) bottomLeftX - 4, (int) bottomLeftY - 4, w, h);
+		// bottomRight
+		knobs[3] = new Rectangle((int) bottomRightX - 4, (int) bottomLeftY - 4, w, h);
 	}
 
-//	public void resize(int quadrant, Point mPoint, Point rPoint){
-//		switch(quadrant){
-//			case 1:
-//				// y changes
-//				// width changes
-//				break;
-//			case 2:
-//				//
-//				break;
-//			case 3:
-//				break;
-//			case 4:
-//				isChanged = true;
-//
-//				
-//				
-//				
-//				
-//				//model.setSize((int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
-//				System.out.println(model.getX() + "  "+ model.getY());
-//				
-//				//model.setBounds((int)model.getBounds().getMinX(),(int) (model.getBounds().getMinY()), (int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
-//				generateKnobs();
-//		}
-//	}
-	
 	public void resize(int Xm, int Ym, int Xa, int Ya) {
-		model.resize(Xm, Ym, Xa, Ya);
-	}
 
+		model.setX(Math.min(Xm, Xa));
+		model.setY(Math.min(Ym, Ya));
+		model.setWidth((Math.abs(Xm - Xa)));
+		model.setHeight(Math.abs(Ym - Ya));
 
-	public int getQuadrant(Point rPoint, Point mPoint)
-	{
-		int q = 0;
-		if (mPoint.getY() > rPoint.getY() ) {
-			if (mPoint.getX() > rPoint.getX()) {
-				q = 1;
+		if(Xm > Xa && Ym > Ya)
+		{
+			generateKnobs((int) (model.getX()), (int) model.getY(), (int) model.getWidth(), (int) model.getHeight());
+		}else
+		{
+	
+		if (Xm < Xa) {
+			if (Ym > Ya) {
+				generateKnobs((int) ((Xm + model.getWidth())), Ya, -(int) model.getWidth(), (int) model.getHeight());
 			} else {
-				q = 2;
+				generateKnobs((int) (Xm + model.getWidth()), (int) (Ym + model.getHeight()), -(int) model.getWidth(),
+						-(int) model.getHeight());
 			}
-		} else {
-			if (mPoint.getX() < rPoint.getX()) {
-				q = 3;
+		}else 
+		{
+			if (Xm > Xa) {
+				generateKnobs((int) Xa, (int) (Ym + model.getHeight()), (int) model.getWidth(), -(int) model.getHeight());
 			} else {
-				q = 4;
+				generateKnobs((int) (Xm + model.getWidth()), (int) (Ym + model.getHeight()), -(int) model.getWidth(),
+						-(int) model.getHeight());
 			}
 		}
+		}
+		
+		// System.out.println("X "+model.getX());
+		// System.out.println("Y "+model.getY());
+		// System.out.println("W "+model.getWidth());
+		// System.out.println("H "+model.getHeight());
+
 	}
 
-
-	public void setModel(DShapeModel model){
+	public void setModel(DShapeModel model) {
 		this.model = model;
 	}
 
-	public Rectangle[] getKnobs(){
+	public Rectangle[] getKnobs() {
 		return knobs;
 	}
 
-	public void setKnobs(Rectangle[] knobs){
+	public void setKnobs(Rectangle[] knobs) {
 		this.knobs = knobs;
 	}
 
-	public void setKnobVisibility(boolean visibility){
+	public void setKnobVisibility(boolean visibility) {
 		knobVisibility = visibility;
 		this.isChanged = true;
 	}
 
-	public boolean getKnobVisibility(){
+	public boolean getKnobVisibility() {
 		return knobVisibility;
 	}
 }
