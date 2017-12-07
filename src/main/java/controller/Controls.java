@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -86,12 +87,15 @@ public class Controls  {
 		JButton setColor = new JButton("setColor");
 		setColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(canvas.selectedShape != null)
+				{
 				Color initialBackground = canvas.selectedShape.getModel().getColor();
 		        Color background = JColorChooser.showDialog(null,
 		            "JColorChooser Sample", initialBackground);
 				canvas.selectedShape.getModel().setColor(background);
 				
 				canvas.repaint();
+				}
 				
 			}
 
@@ -117,14 +121,24 @@ public class Controls  {
 		JButton moveToFront = new JButton("Move To Front");
 		moveToFront.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				if(canvas.selectedShape != null){
+					
+					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
+					canvas.shapes.add(canvas.selectedShape);
+					canvas.repaint();
+				}
 			}
 		});
 		fourthPanel.add(moveToFront);
 		JButton moveToBack = new JButton("Move To Back");
 		moveToBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				if(canvas.selectedShape != null){
+					
+					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
+					canvas.shapes.add(0,canvas.selectedShape);
+					canvas.repaint();
+				}
 			}
 		});
 		fourthPanel.add(moveToBack);
@@ -137,7 +151,6 @@ public class Controls  {
 							//canvas.selectedShape.delete();
 							canvas.selectedShape = null;
 							canvas.repaint();
-					
 				}
 				
 				

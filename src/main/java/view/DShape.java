@@ -100,8 +100,7 @@ public class DShape implements ModelListener {
 		double bottomRightX;
 		double bottomRightY;
 		
-		if(anchor == 0)
-		{
+		
 		 topLeftX = x;
 		 topLeftY = y;
 		 topRightX = x + width;
@@ -110,37 +109,7 @@ public class DShape implements ModelListener {
 		 bottomLeftY = topLeftY + height;
 		 bottomRightX = topRightX;
 		 bottomRightY = topRightY + height;
-		}else if(anchor == 1)
-		{
-			 topLeftX = x;
-			 topLeftY = y;
-			 topRightX = x + width;
-			 topRightY = topLeftY;
-			 bottomLeftX = topLeftX;
-			 bottomLeftY = topLeftY + height;
-			 bottomRightX = topRightX;
-			 bottomRightY = topRightY + height;
-		}else if(anchor == 2)
-		{
-			 topLeftX = x;
-			 topLeftY = y;
-			 topRightX = x + width;
-			 topRightY = topLeftY;
-			 bottomLeftX = topLeftX;
-			 bottomLeftY = topLeftY + height;
-			 bottomRightX = topRightX;
-			 bottomRightY = topRightY + height;
-		}else 
-		{
-			 topLeftX = x;
-			 topLeftY = y;
-			 topRightX = x + width;
-			 topRightY = topLeftY;
-			 bottomLeftX = topLeftX;
-			 bottomLeftY = topLeftY + height;
-			 bottomRightX = topRightX;
-			 bottomRightY = topRightY + height;
-		}
+		
 		// topLeft
 		knobs[0] = new Rectangle((int) topLeftX - 4, (int) topLeftY - 4, w, h);
 		// topRight
@@ -151,14 +120,15 @@ public class DShape implements ModelListener {
 		knobs[3] = new Rectangle((int) bottomRightX - 4, (int) bottomLeftY - 4, w, h);
 	}
 
-	public void resize(int Xm, int Ym, int Xa, int Ya) {
-
-		model.setX(Math.min(Xm, Xa));
-		model.setY(Math.min(Ym, Ya));
-		model.setWidth((Math.abs(Xm - Xa)));
-		model.setHeight(Math.abs(Ym - Ya));
+	public void resize(int X, int Y, int Xa, int Ya) {
+		
+		model.setX(Math.min(X, Xa));
+		model.setY(Math.min(Y, Ya));
+		model.setWidth((Math.abs(X - Xa)));
+		model.setHeight(Math.abs(Y - Ya));
 		
 		model.notifyListeners();
+		
 	}
 
 	public void setModel(DShapeModel model) {

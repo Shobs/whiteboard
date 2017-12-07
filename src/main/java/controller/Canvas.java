@@ -191,9 +191,9 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 				int y = (int) r.getCenterY();
 				selectedShape.resize(e.getX(), e.getY(), x, y);
 				
-				selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
-						(int) selectedShape.getModel().getY(), (int) selectedShape.getModel().getWidth(),
-						(int) selectedShape.getModel().getHeight(), anchor);
+//				selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
+//						(int) selectedShape.getModel().getY(), (int) selectedShape.getModel().getWidth(),
+//						(int) selectedShape.getModel().getHeight(), anchor);
 //
 //				if (anchor == 0) {
 //					if (e.getX() > x) {
