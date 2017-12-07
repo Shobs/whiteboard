@@ -8,7 +8,7 @@ public class DRect extends DShape{
 	Graphics g;
 	public DRect(DShapeModel model){
 		super.model = model;
-		generateKnobs((int)model.getX(),(int)model.getY(),(int)model.getWidth(),(int)model.getHeight());
+		generateKnobs((int)model.getX(),(int)model.getY(),(int)model.getWidth(),(int)model.getHeight(),0);
 	}
 
 	@Override

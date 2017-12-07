@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,6 +18,7 @@ import javax.swing.JTextField;
 
 import main.java.model.DOvalModel;
 import main.java.model.DRectModel;
+import main.java.view.DShape;
 
 public class Controls  {
 	Canvas canvas;
@@ -129,7 +131,16 @@ public class Controls  {
 		JButton removeShape = new JButton("Remove Shape");
 		removeShape.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				if(canvas.selectedShape != null)
+				{
+							canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
+							//canvas.selectedShape.delete();
+							canvas.selectedShape = null;
+							canvas.repaint();
+					
+				}
+				
+				
 			}
 		});
 		fourthPanel.add(removeShape);

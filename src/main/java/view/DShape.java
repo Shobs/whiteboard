@@ -3,6 +3,8 @@ package main.java.view;
 import main.java.model.*;
 import java.awt.*;
 
+import com.sun.javafx.geom.Point2D;
+
 public class DShape implements ModelListener {
 	protected boolean isChanged = false;
 	protected DShapeModel model; // Data that represents the view
@@ -16,8 +18,9 @@ public class DShape implements ModelListener {
 	 */
 	public void draw(Graphics g) {
 		if (knobVisibility) {
-
+			//generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight());
 			for (Rectangle r : knobs) {
+				
 				g.setColor(Color.BLUE);
 				g.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 			}
@@ -50,6 +53,10 @@ public class DShape implements ModelListener {
 	public Rectangle getBounds() {
 		return model.getBounds();
 	}
+	public void delete(){
+		model.deleteM();
+		model = null;
+	}
 
 	/**
 	 * @Override
@@ -81,17 +88,59 @@ public class DShape implements ModelListener {
 		return model.contains(p);
 	}
 
-	public void generateKnobs(int x, int y, int width, int height) {
+	public void generateKnobs(int x, int y, int width, int height,int anchor) {
 
 		int w = 8, h = 8;
-		double topLeftX = x;
-		double topLeftY = y;
-		double topRightX = x + width;
-		double topRightY = topLeftY;
-		double bottomLeftX = topLeftX;
-		double bottomLeftY = topLeftY + height;
-		double bottomRightX = topRightX;
-		double bottomRightY = topRightY + height;
+		double topLeftX;
+		double topLeftY;
+		double topRightX;
+		double topRightY;
+		double bottomLeftX;
+		double bottomLeftY;
+		double bottomRightX;
+		double bottomRightY;
+		
+		if(anchor == 0)
+		{
+		 topLeftX = x;
+		 topLeftY = y;
+		 topRightX = x + width;
+		 topRightY = topLeftY;
+		 bottomLeftX = topLeftX;
+		 bottomLeftY = topLeftY + height;
+		 bottomRightX = topRightX;
+		 bottomRightY = topRightY + height;
+		}else if(anchor == 1)
+		{
+			 topLeftX = x;
+			 topLeftY = y;
+			 topRightX = x + width;
+			 topRightY = topLeftY;
+			 bottomLeftX = topLeftX;
+			 bottomLeftY = topLeftY + height;
+			 bottomRightX = topRightX;
+			 bottomRightY = topRightY + height;
+		}else if(anchor == 2)
+		{
+			 topLeftX = x;
+			 topLeftY = y;
+			 topRightX = x + width;
+			 topRightY = topLeftY;
+			 bottomLeftX = topLeftX;
+			 bottomLeftY = topLeftY + height;
+			 bottomRightX = topRightX;
+			 bottomRightY = topRightY + height;
+		}else 
+		{
+			 topLeftX = x;
+			 topLeftY = y;
+			 topRightX = x + width;
+			 topRightY = topLeftY;
+			 bottomLeftX = topLeftX;
+			 bottomLeftY = topLeftY + height;
+			 bottomRightX = topRightX;
+			 bottomRightY = topRightY + height;
+		}
 		// topLeft
 		knobs[0] = new Rectangle((int) topLeftX - 4, (int) topLeftY - 4, w, h);
 		// topRight
@@ -108,36 +157,8 @@ public class DShape implements ModelListener {
 		model.setY(Math.min(Ym, Ya));
 		model.setWidth((Math.abs(Xm - Xa)));
 		model.setHeight(Math.abs(Ym - Ya));
-
-		if(Xm > Xa && Ym > Ya)
-		{
-			generateKnobs((int) (model.getX()), (int) model.getY(), (int) model.getWidth(), (int) model.getHeight());
-		}else
-		{
-	
-		if (Xm < Xa) {
-			if (Ym > Ya) {
-				generateKnobs((int) ((Xm + model.getWidth())), Ya, -(int) model.getWidth(), (int) model.getHeight());
-			} else {
-				generateKnobs((int) (Xm + model.getWidth()), (int) (Ym + model.getHeight()), -(int) model.getWidth(),
-						-(int) model.getHeight());
-			}
-		}else 
-		{
-			if (Xm > Xa) {
-				generateKnobs((int) Xa, (int) (Ym + model.getHeight()), (int) model.getWidth(), -(int) model.getHeight());
-			} else {
-				generateKnobs((int) (Xm + model.getWidth()), (int) (Ym + model.getHeight()), -(int) model.getWidth(),
-						-(int) model.getHeight());
-			}
-		}
-		}
 		
-		// System.out.println("X "+model.getX());
-		// System.out.println("Y "+model.getY());
-		// System.out.println("W "+model.getWidth());
-		// System.out.println("H "+model.getHeight());
-
+		model.notifyListeners();
 	}
 
 	public void setModel(DShapeModel model) {
