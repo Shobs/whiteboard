@@ -23,11 +23,17 @@ import javax.swing.event.DocumentListener;
 
 import main.java.model.DOvalModel;
 import main.java.model.DRectModel;
+import main.java.model.DShapeModel;
 import main.java.model.DTextModel;
 import main.java.view.DShape;
+import main.java.view.DText;
+import main.java.view.ModelListener;
 
-public class Controls  {
+public class Controls {
 	Canvas canvas;
+	JTextField textString ;
+	JPanel container;
+	
 
 	public Controls(Canvas c) {
 		canvas = c;
@@ -36,7 +42,7 @@ public class Controls  {
 
 
 	public JPanel createButtons() {
-		JPanel container = new JPanel(); // main VerticalBox which contains all
+		 container = new JPanel(); // main VerticalBox which contains all
 											// buttons
 		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
 		container.setPreferredSize(new Dimension(400, 0));
@@ -79,31 +85,9 @@ public class Controls  {
 		shapes.add(line);
 		
 		
-		JComboBox<String> fontC = new JComboBox<String>(
-				GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
-		fontC.setSelectedItem("Dialog");
-		fontC.setMaximumSize(new Dimension(300, 150));
-
-		fontC.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				canvas.changeFont((String)fontC.getSelectedItem());
-			}
-		});
-
-		JTextField textS = new JTextField("Hello");
-		textS.setMaximumSize(new Dimension(200, 150));
-		textS.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				 canvas.changeContent(textS.getText());
-			}
-		});
 		
+
+	
 		
 		JButton text = new JButton("Text");
 		text.addActionListener(new ActionListener() {
@@ -111,7 +95,9 @@ public class Controls  {
 				
 				DTextModel dText = new DTextModel();
 				canvas.addShape(dText);
-//				canvas.paintComponent(canvas.getGraphics());
+				
+				canvas.paintComponent(canvas.getGraphics());
+				
 			}
 		});
 		shapes.add(text);
@@ -140,16 +126,41 @@ public class Controls  {
 
 		//
 		Box thirdPanel = Box.createHorizontalBox();
-		JTextField textString = new JTextField("Whiteboard");
-		textString.setMaximumSize(new Dimension(200, 25));
+		textString = new JTextField("Hello");
+		textString.setMaximumSize(new Dimension(200, 30));
+		textString.setEditable(false);
+	textString.getDocument().addDocumentListener(new DocumentListener() {
+			
+			public void changedUpdate(DocumentEvent e) {
+				 canvas.changeContent(textString.getText());
+				
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				canvas.changeContent(textString.getText());
+				
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				 canvas.changeContent(textString.getText());
+				
+			}
+
+		});
+	
+	
 		thirdPanel.add(textString);
-		JButton scriptButton = new JButton("Edwardian Script");
-		scriptButton.addActionListener(new ActionListener() {
+		JComboBox<String> fontC = new JComboBox<String>(
+				GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
+		fontC.setSelectedItem("Dialog");
+		fontC.setMaximumSize(new Dimension(200, 30));
+	
+		fontC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				canvas.changeFont((String)fontC.getSelectedItem());
 			}
 		});
-		thirdPanel.add(scriptButton);
+		thirdPanel.add(fontC);
 		container.add(thirdPanel);
 
 		Box fourthPanel = Box.createHorizontalBox();
@@ -202,4 +213,11 @@ public class Controls  {
 		return container;
 
 	}
+	
+	public void reDraw()
+	{
+		
+		textString.setEditable((canvas.selectedShape instanceof DText));
+	}
+
 }

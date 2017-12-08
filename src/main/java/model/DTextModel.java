@@ -23,11 +23,13 @@ public class DTextModel extends DShapeModel{
 	public void setStr(String st)
 	{
 		str = st;
+		notifyListeners();
 	}
 	
 	public void setType(String st)
 	{
 		type = st;
+		notifyListeners();
 	}
 	
 	

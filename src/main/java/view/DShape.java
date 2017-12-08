@@ -18,10 +18,11 @@ public class DShape implements ModelListener {
 	 */
 	public void draw(Graphics g) {
 		if (knobVisibility) {
-			//generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight());
+			generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(),0);
 			for (Rectangle r : knobs) {
 				
 				g.setColor(Color.BLUE);
+				
 				g.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 			}
 		}
