@@ -216,8 +216,11 @@ public class Controls {
 	
 	public void reDraw()
 	{
-		
-		textString.setEditable((canvas.selectedShape instanceof DText));
+		 textString.setEditable((canvas.selectedShape instanceof DText));
+		if(canvas.selectedShape instanceof DText )
+		{
+		  textString.setText(((DTextModel)canvas.selectedShape.getModel()).getStr());
+		}
 	}
 
 }

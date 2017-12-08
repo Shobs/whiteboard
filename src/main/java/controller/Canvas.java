@@ -44,11 +44,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	@Override
 	public void repaint() {
 		if (shapes != null) {
-			//for (DShape ds : shapes) {
-				// if (ds.getIsChanged()) {
 				super.repaint();
-				// }
-			//}
 		}
 		super.repaint();
 	}
