@@ -3,6 +3,7 @@ package main.java.controller;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,13 +13,17 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import main.java.model.DOvalModel;
 import main.java.model.DRectModel;
+import main.java.model.DTextModel;
 import main.java.view.DShape;
 
 public class Controls  {
@@ -72,11 +77,41 @@ public class Controls  {
 			}
 		});
 		shapes.add(line);
+		
+		
+		JComboBox<String> fontC = new JComboBox<String>(
+				GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
+		fontC.setSelectedItem("Dialog");
+		fontC.setMaximumSize(new Dimension(300, 150));
 
+		fontC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				canvas.changeFont((String)fontC.getSelectedItem());
+			}
+		});
+
+		JTextField textS = new JTextField("Hello");
+		textS.setMaximumSize(new Dimension(200, 150));
+		textS.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				 canvas.changeContent(textS.getText());
+			}
+		});
+		
+		
 		JButton text = new JButton("Text");
 		text.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
+				DTextModel dText = new DTextModel();
+				canvas.addShape(dText);
+//				canvas.paintComponent(canvas.getGraphics());
 			}
 		});
 		shapes.add(text);

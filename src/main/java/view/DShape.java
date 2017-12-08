@@ -90,6 +90,10 @@ public class DShape implements ModelListener {
 
 	public void generateKnobs(int x, int y, int width, int height,int anchor) {
 
+//		System.out.println("X = "+ x + "Y " + y+ " width = "+ width+ " h ="+ height + " a = "+ anchor);
+		
+		
+		
 		int w = 8, h = 8;
 		double topLeftX;
 		double topLeftY;

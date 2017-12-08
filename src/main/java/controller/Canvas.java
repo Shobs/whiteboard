@@ -42,11 +42,11 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	@Override
 	public void repaint() {
 		if (shapes != null) {
-			for (DShape ds : shapes) {
+			//for (DShape ds : shapes) {
 				// if (ds.getIsChanged()) {
 				super.repaint();
 				// }
-			}
+			//}
 		}
 		super.repaint();
 	}
@@ -185,16 +185,17 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		if (selectedShape != null) {
 
 			if (selectedKnob != -1) {
+//				selectedKnob = selectedShape.isKnob(e.getPoint());
 				anchor = getAnchor(selectedKnob);
 				Rectangle r = selectedShape.getKnobs()[anchor];
 				int x = (int) r.getCenterX();
 				int y = (int) r.getCenterY();
 				selectedShape.resize(e.getX(), e.getY(), x, y);
-				
-//				selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
-//						(int) selectedShape.getModel().getY(), (int) selectedShape.getModel().getWidth(),
-//						(int) selectedShape.getModel().getHeight(), anchor);
-//
+				 
+				selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
+						(int) selectedShape.getModel().getY(), (int) selectedShape.getModel().getWidth(),
+						(int) selectedShape.getModel().getHeight(), anchor);
+//////
 //				if (anchor == 0) {
 //					if (e.getX() > x) {
 //						selectedShape.resize(e.getX(), e.getY(), x, y);
@@ -263,4 +264,27 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		repaint();
 
 	}
+	
+	
+	
+	public void changeFont(String nType)
+	{
+		if(selectedShape != null && (selectedShape instanceof DText))
+		{
+			DTextModel text = (DTextModel)selectedShape.getModel();
+			text.setType(nType);
+		}
+	}
+	public void changeContent(String nText) 
+	{
+		if(selectedShape != null && (selectedShape instanceof DText))
+		{
+			DTextModel text = (DTextModel)selectedShape.getModel();
+			text.setStr(nText);
+		}
+	}
+	
+	
+	
+	
 }
