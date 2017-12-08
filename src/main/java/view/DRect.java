@@ -3,7 +3,7 @@ import main.java.model.*;
 import java.awt.*;
 
 public class DRect extends DShape{
-	Graphics g;
+	private Graphics g;
 	public DRect(DShapeModel model){
 		super.model = model;
 		generateKnobs();
@@ -17,11 +17,11 @@ public class DRect extends DShape{
 		super.draw(g);
 	}
 
-	
+
 	/**
 	 * @Override
 	 */
 	public void modelChanged(DShapeModel mod){
 		isChanged = true;
-	} 
+	}
 }

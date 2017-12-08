@@ -6,45 +6,34 @@ import java.awt.*;
 public class DShape implements ModelListener{
 	protected boolean isChanged = false;
 	protected DShapeModel model; //Data that represents the view
-	protected Rectangle[] knobs = new Rectangle[4]; //Rectangles that indicate the corners of the shape
+	protected Rectangle[] knobs; //Rectangles that indicate the corners of the shape
 	protected boolean knobVisibility; //Determines the visbility of the knob to the user
-	
+	protected static final int KNOB_SIZE = 8;
 
 	/**
 	 * Method that draws object on canvas
 	 */
 	public void draw(Graphics g){
 		if(knobVisibility){
-			
+
 			for(Rectangle r : knobs){
 				g.setColor(Color.BLUE);
 				g.fillRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
-			}		
+			}
 		}
-		
+
 	}
-	
+
 	public boolean getIsChanged()
 	{
 		return isChanged;
 	}
-	
-	/*
-	public boolean contains(Point p)
+
+	public void setIsChanged(boolean c)
 	{
-		boolean r = getBounds().contains(p);
-		
-		if(r == false)
-		{
-		for(Rectangle rec : knobs)
-		{
-			 r = rec.getBounds().contains(p);
-		}
-		}
-		return r;
+		isChanged = c;
 	}
-	
-	*/
+
 	/**
 	 * @return a Rectangle object representation of the shape
 	 */
@@ -56,8 +45,8 @@ public class DShape implements ModelListener{
 	 * @Override
 	 */
 	public void modelChanged(DShapeModel model){
-		
-	} 
+
+	}
 
 
 	//Setters and Getters
@@ -74,19 +63,18 @@ public class DShape implements ModelListener{
 		for(int i = 0; i < knobs.length; i++)
 			if(knobs[i].contains(p))
 				return i;
-		return -1; 
-	}	
-	
+		return -1;
+	}
+
 	public boolean isSelected(Point p)
 	{
 		return model.contains(p);
 	}
 
 
-	
+
 	public void generateKnobs(){
-		
-		int width = 8, height = 8;
+		knobs = new Rectangle[4];
 		double topLeftX = model.getX();
 		double topLeftY = model.getY();
 		double topRightX = model.getX() + model.getWidth();
@@ -96,13 +84,13 @@ public class DShape implements ModelListener{
 		double bottomRightX = topRightX;
 		double bottomRightY = topRightY+model.getHeight();
 		//topLeft
-		knobs[0] = new Rectangle((int)topLeftX - 4,(int)topLeftY - 4, width, height);
+		knobs[0] = new Rectangle((int)topLeftX - KNOB_SIZE/2, (int)topLeftY - KNOB_SIZE/2, KNOB_SIZE, KNOB_SIZE);
 		//topRight
-		knobs[1] = new Rectangle((int)topRightX - 4, (int)topRightY - 4, width, height);
+		knobs[1] = new Rectangle((int)topRightX - KNOB_SIZE/2, (int)topRightY - KNOB_SIZE/2, KNOB_SIZE, KNOB_SIZE);
 		//bottomLeft
-		knobs[2] = new Rectangle((int)bottomLeftX - 4, (int)bottomLeftY - 4, width, height);
+		knobs[2] = new Rectangle((int)bottomLeftX - KNOB_SIZE/2, (int)bottomLeftY - KNOB_SIZE/2, KNOB_SIZE, KNOB_SIZE);
 		//bottomRight
-		knobs[3] = new Rectangle((int)bottomRightX - 4, (int)bottomLeftY - 4, width, height);
+		knobs[3] = new Rectangle((int)bottomRightX - KNOB_SIZE/2, (int)bottomLeftY - KNOB_SIZE/2, KNOB_SIZE, KNOB_SIZE);
 	}
 
 	public void resize(int knob, Point newPoint){
@@ -114,12 +102,11 @@ public class DShape implements ModelListener{
 			case 2:
 				break;
 			case 3:
-				isChanged = true;
-				model.setBounds((int)model.getBounds().getX(),(int) (model.getBounds().getY()), (int)(newPoint.getX()-model.getX()), (int)(newPoint.getY() - model.getY()));
-				generateKnobs();
+				break;
+
 		}
 	}
-	
+
 
 	public void setModel(DShapeModel model){
 		this.model = model;

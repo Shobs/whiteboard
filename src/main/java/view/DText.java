@@ -4,6 +4,7 @@ import java.awt.*;
 
 
 public class DText extends DShape{
+	private Graphics g;
 	public DText(DShapeModel model){
 		super.model = model;
 	}
