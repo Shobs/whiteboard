@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -203,7 +204,10 @@ public class Controls {
 			}
 		});
 		fourthPanel.add(removeShape);
-
+		
+		
+//		JTable table = new JTable(canvas):
+//			
 		container.add(fourthPanel);
 
 		for (Component c : container.getComponents()) {
@@ -214,6 +218,10 @@ public class Controls {
 
 	}
 	
+//	public TableModel generateTable(ArrayList<DShape> shape)
+//	{
+//		
+//	}
 	public void reDraw()
 	{
 		 textString.setEditable((canvas.selectedShape instanceof DText));

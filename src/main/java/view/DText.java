@@ -19,16 +19,24 @@ public class DText extends DShape{
 		this.g = g;
 		g.setColor(model.getColor());
 		
-		Shape clip = g.getClip();
+//		Shape clip = g.getClip();
 	//computeFont(g, (DTextModel)model)
+	
+		Shape clip = g.getClip();
+		
 		Font font = new Font(((DTextModel)model).getType(), Font.PLAIN, computeFont(g, (DTextModel)model));
 		g.setFont(font);
-	
+		g.drawString(((DTextModel)model).getStr(), model.x  , model.y+(int)(model.height*.75));
 		
+		
+		//Font font = scaleFont(g, (DTextModel)model);
+		
+		
+	
 		//g.setClip(clip.getBounds().intersection(model));
 		
-		g.drawString(((DTextModel)model).getStr(), model.x, model.y+(int)(model.height*.75));
-		
+	
+		//g.setClip(clip.getBounds().intersection(model));
 		// make sure to figure out what to do with where to place the text
 		g.setClip(clip);
 		
@@ -60,11 +68,29 @@ public class DText extends DShape{
 				fMetric = g.getFontMetrics(new Font(textMod.getType(), Font.PLAIN, (int) size));
 			}
 		}
-		
-		
-		
+	
 		return (int)size;
 	}
+	
+//	public Font scaleFont(Graphics g, DTextModel model) {
+//		
+//		
+//	    float fontSize=72.0f;
+//	    Font font= new Font(model.getType(), 0, (int)fontSize);
+//	    boolean isBigger = true;
+//	    
+//	    while(isBigger) {                             
+//	            font=g.getFont().deriveFont(fontSize);
+//	            FontMetrics fm=g.getFontMetrics(font);
+//	            int width=fm.stringWidth(text);
+//	            nextTry*=.9;
+//	            if(width <= rect.width)
+//	                isBigger = false;
+//	                        
+//	    }
+//	    int result = (int)Math.min(computeFont(g, textMod), nextTry);
+//	    return result;
+//	}
 	public void modelChanged(DShapeModel model){
 		
 	}
