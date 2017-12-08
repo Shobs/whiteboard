@@ -61,14 +61,45 @@ public class DShapeModel extends Rectangle {
     public void setY(int y)
     {
     	this.y = y;
-    	notifyListeners();
+    	
+    }
+    
+    public void setWidth(int w)
+    {
+    	width = w;
+    	
+    }
+    
+    public void setHeight(int h)
+    {
+    	height = h;
+    	
     }
   
 
     public void setColor(Color c){
         this.c = c;
-        notifyListeners();
+        
     }
+    
+    public void resize(int Xm, int Ym, int Xa, int Ya) {
+		int x = Math.min(Xm, Xa);
+		int y = Math.min(Ym, Ya);
+		int width = (Math.abs(Xm - Xa));
+		int height = Math.abs(Ym - Ya);
+
+		setLocation(x, y);
+		setSize(width, height);
+		notifyListeners();
+	}
+    
+    public void deleteM() {
+		for (ModelListener l : mls) {
+			removeListener(l);
+		}
+		notifyListeners();
+		
+	}
 
     public void notifyListeners(){
     	for(ModelListener d : mls )
@@ -76,7 +107,7 @@ public class DShapeModel extends Rectangle {
     		d.modelChanged(this);
     	}
     }
-
+  
 
 
 
