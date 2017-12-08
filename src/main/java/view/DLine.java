@@ -4,26 +4,28 @@ import java.awt.*;
 
 public class DLine extends DShape{
 	private Graphics g;
+	private DLineModel lineModel = null;
 	public DLine(DShapeModel model){
-		super.model = model;
-	}
+		this.model = model;
+		lineModel = (DLineModel)model;
+		this.knobs = new Rectangle[2];
+	}    
 
 	@Override
 	public void draw(Graphics g){
+		System.out.println("In DLine draw");
 		this.g = g;
-		g.setColor(model.getColor());
-		g.drawLine((int)model.getX1(), (int)model.getY1(), (int)model.getX2(), (int)model.getY2());
+		g.setColor(lineModel.getColor());
+		g.drawLine((int)lineModel.getX1(), (int)lineModel.getY1(), (int)lineModel.getX2(), (int)lineModel.getY2());
+		super.draw(g);
 	}
-
-
 
 	/**
 	 * @Override
 	 */
-	public void generateKnobs(){
-		this.knobs = new Rectangle[2];
-		knobs[0] = new Rectangle(model.getX1(), model.getY1(), DShape.KNOB_SIZE, DShape.KNOB_SIZE);
-		knobs[1] = new Rectangle(model.getX2(), model.getY2(), DShape.KNOB_SIZE, DShape.KNOB_SIZE);
+	public void generateKnobs(int x, int y, int width, int height){
+		knobs[0] = new Rectangle((int)lineModel.getX1(), (int)lineModel.getY1(), 8, 8);
+		knobs[1] = new Rectangle((int)lineModel.getX2(), (int)lineModel.getY2(), 8, 8);
 	}
 
 	/**
