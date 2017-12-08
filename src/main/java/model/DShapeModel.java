@@ -1,15 +1,10 @@
 package main.java.model;
 
-import java.awt.Rectangle;
-import java.awt.Color;
-import java.awt.Point;
-import java.util.ArrayList;
-
-import main.java.view.DShape;
-import main.java.view.ModelListener;
+import java.awt.*;
+import java.util.*;
+import main.java.view.*;
 
 public class DShapeModel extends Rectangle {
-
     private Color c;
 
     private ArrayList<ModelListener> mls;

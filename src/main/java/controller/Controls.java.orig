@@ -1,5 +1,36 @@
 package main.java.controller;
 
+<<<<<<< HEAD
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import main.java.model.DOvalModel;
+import main.java.model.DRectModel;
+import main.java.model.DShapeModel;
+import main.java.model.DTextModel;
+import main.java.view.DShape;
+import main.java.view.DText;
+import main.java.view.ModelListener;
+=======
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -10,10 +41,7 @@ import javax.swing.JTable;
 import main.java.model.*;
 import main.java.view.*;
 
-import javax.swing.JTable;
-import main.java.model.DShapeModel;
-import main.java.view.DText;
-import main.java.view.ModelListener;
+>>>>>>> 74fa7aa09c456c6cc3a12e512d4a1aa61827c448
 
 public class Controls {
 	Canvas canvas;
@@ -189,9 +217,13 @@ public class Controls {
 			}
 		});
 		fourthPanel.add(removeShape);
+<<<<<<< HEAD
+		
 		
 //		JTable table = new JTable(canvas):
 //			
+=======
+>>>>>>> 74fa7aa09c456c6cc3a12e512d4a1aa61827c448
 		container.add(fourthPanel);
 		
 		
@@ -203,6 +235,21 @@ public class Controls {
 
 	}
 	
+<<<<<<< HEAD
+//	public TableModel generateTable(ArrayList<DShape> shape)
+//	{
+//		
+//	}
+	public void reDraw()
+	{
+		 textString.setEditable((canvas.selectedShape instanceof DText));
+		if(canvas.selectedShape instanceof DText )
+		{
+		  textString.setText(((DTextModel)canvas.selectedShape.getModel()).getStr());
+		}
+	}
+
+=======
 	public JTable generateTable(ArrayList<DShape> shapes){
 		TableModel table = new AbstractTableModel(){
 			public int getColumnCount(){ return 4;}
@@ -227,13 +274,6 @@ public class Controls {
 		};
 		return new JTable(table);
 	}
-	public void reDraw()
-	{
-		 textString.setEditable((canvas.selectedShape instanceof DText));
-		if(canvas.selectedShape instanceof DText )
-		{
-		  textString.setText(((DTextModel)canvas.selectedShape.getModel()).getStr());
-		}
-	}
+>>>>>>> 74fa7aa09c456c6cc3a12e512d4a1aa61827c448
 }
 
