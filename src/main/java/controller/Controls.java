@@ -1,30 +1,15 @@
 package main.java.controller;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.table.*;
+import javax.swing.JTable;
+import main.java.model.*;
+import main.java.view.*;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import main.java.model.DOvalModel;
-import main.java.model.DRectModel;
-import main.java.model.DTextModel;
-import main.java.view.DShape;
 
 public class Controls  {
 	Canvas canvas;
@@ -192,9 +177,9 @@ public class Controls  {
 			}
 		});
 		fourthPanel.add(removeShape);
-
 		container.add(fourthPanel);
-
+		
+		
 		for (Component c : container.getComponents()) {
 			((JComponent) c).setAlignmentX(Box.LEFT_ALIGNMENT);
 		}
@@ -202,4 +187,30 @@ public class Controls  {
 		return container;
 
 	}
+	
+	public JTable generateTable(ArrayList<DShape> shapes){
+		TableModel table = new AbstractTableModel(){
+			public int getColumnCount(){ return 4;}
+			
+			public int getRowCount() { return shapes.size();}
+			
+			public Object getValueAt(int row, int column){
+				DShape shape = shapes.get(row);
+				switch(column){
+					case 0: 
+						return shape.getModel().getX();
+					case 1:
+						return shape.getModel().getY();
+					case 2:
+						return shape.getModel().getWidth();
+					case 3:
+						return shape.getModel().getHeight();
+					default:
+						return null;
+				}
+			}
+		};
+		return new JTable(table);
+	}
 }
+
