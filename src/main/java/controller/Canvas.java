@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 import main.java.model.DLineModel;
 import main.java.model.DOvalModel;
 import main.java.model.DRectModel;
@@ -41,6 +43,16 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		addMouseListener(this);
 	}
 
+	
+	public DShapeModel[] getModels()
+	{
+		DShapeModel[] models = new DShapeModel[shapes.size()];
+		for(int i = 0; i < shapes.size(); i++)
+		{
+			models[i] = shapes.get(i).getModel();
+		}
+		return  models;
+	}
 	@Override
 	public void repaint() {
 		if (shapes != null) {
@@ -330,6 +342,17 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	public void setControls(Controls c)
 	{
 		this.controls = c;
+	}
+	public void loadShapeModels(DShapeModel[] models){
+		for(int i = 0; i < shapes.size(); i++ ){
+			shapes.get(i).delete();
+		}
+		selectedShape = null;
+		shapes.clear();
+		for(int i = 0; i < models.length; i++ ){
+			 this.addShape(models[i]);
+			 
+		}
 	}
 	
 	

@@ -2,6 +2,14 @@ package main.java.controller;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -185,11 +193,28 @@ public class Controls {
 			}
 		});
 		fourthPanel.add(removeShape);
+		Box fifth = Box.createHorizontalBox();
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				save();
+			}
+		});
+		fifth.add(saveButton);
 		
-//		JTable table = new JTable(canvas):
-//			
+		JButton openButton = new JButton("Open");
+		openButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				open();
+			}
+		});
+		
+		fifth.add(openButton);
+		fifth.add(saveButton);
+		
+		
 		container.add(fourthPanel);
-		
+		container.add(fifth);
 		
 		for (Component c : container.getComponents()) {
 			((JComponent) c).setAlignmentX(Box.LEFT_ALIGNMENT);
@@ -229,6 +254,46 @@ public class Controls {
 		if(canvas.selectedShape instanceof DText )
 		{
 		  textString.setText(((DTextModel)canvas.selectedShape.getModel()).getStr());
+		}
+	}
+	
+	private void save() {
+
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new File("C:\\Users\\anis\\Documents\\CS151"));
+		int retrival = chooser.showSaveDialog(null);
+		if (retrival == JFileChooser.APPROVE_OPTION) {
+			try {
+				XMLEncoder e = new XMLEncoder(
+						new BufferedOutputStream(new FileOutputStream(chooser.getSelectedFile() + ".xml")));
+				DShapeModel[] modelShapes = canvas.getModels();
+				e.writeObject(modelShapes);
+				e.flush();
+				e.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+	}
+	protected void open() {
+		
+		JFileChooser chooser = new JFileChooser();
+		
+		int retrival = chooser.showOpenDialog(null);
+		if (retrival == JFileChooser.APPROVE_OPTION) {
+			XMLDecoder d = null;
+			try {
+
+				d = new XMLDecoder(new BufferedInputStream(new FileInputStream(chooser.getSelectedFile())));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
+			Object result = d.readObject();
+			canvas.loadShapeModels((DShapeModel[]) result);
+			d.close();
 		}
 	}
 }
