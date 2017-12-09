@@ -5,9 +5,8 @@ public class DTextModel extends DShapeModel{
 	private String str ;
 	private String type;
 	
-	
-	public DTextModel(int i, int j, int k, int l, String st,String type) {
-		super(i,j,k,l);
+	public DTextModel(int x, int y, int width, int height, String st,String type) {
+		super(x, y, width, height);
 		str = st;
 		this.type = type ;
 		
