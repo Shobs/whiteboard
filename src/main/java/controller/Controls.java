@@ -10,7 +10,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
@@ -213,8 +216,21 @@ public class Controls {
 		fifth.add(saveButton);
 		
 		
+		JButton saveAsButton = new JButton("Save As PNG");
+		saveAsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveAsImage();
+			}
+		});
+		
+		fifth.add(saveAsButton);		
 		container.add(fourthPanel);
 		container.add(fifth);
+		
+		
+
+		
+		
 		
 		for (Component c : container.getComponents()) {
 			((JComponent) c).setAlignmentX(Box.LEFT_ALIGNMENT);
@@ -224,30 +240,7 @@ public class Controls {
 
 	}
 	
-//	public JTable generateTable(ArrayList<DShape> shapes){
-//		TableModel table = new AbstractTableModel(){
-//			public int getColumnCount(){ return 4;}
-//			
-//			public int getRowCount() { return shapes.size();}
-//			
-//			public Object getValueAt(int row, int column){
-//				DShape shape = shapes.get(row);
-//				switch(column){
-//					case 0: 
-//						return shape.getModel().getX();
-//					case 1:
-//						return shape.getModel().getY();
-//					case 2:
-//						return shape.getModel().getWidth();
-//					case 3:
-//						return shape.getModel().getHeight();
-//					default:
-//						return null;
-//				}
-//			}
-//		};
-//		return new JTable(table);
-//	}
+
 	public void reDraw()
 	{
 		 textString.setEditable((canvas.selectedShape instanceof DText));
@@ -276,25 +269,44 @@ public class Controls {
 		}
 
 	}
-	protected void open() {
+	
+	//make protected
+	private void open() {
 		
-		JFileChooser chooser = new JFileChooser();
+		JFileChooser fchooser = new JFileChooser();
 		
-		int retrival = chooser.showOpenDialog(null);
+		int retrival = fchooser.showOpenDialog(null);
 		if (retrival == JFileChooser.APPROVE_OPTION) {
 			XMLDecoder d = null;
 			try {
 
-				d = new XMLDecoder(new BufferedInputStream(new FileInputStream(chooser.getSelectedFile())));
+				d = new XMLDecoder(new BufferedInputStream(new FileInputStream(fchooser.getSelectedFile())));
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 				return;
 			}
-			Object result = d.readObject();
-			canvas.loadModels((DShapeModel[]) result);
+			Object res = d.readObject();
+			canvas.loadModels((DShapeModel[]) res);
 			d.close();
 		}
+	}
+	
+	private void saveAsImage() {
+
+		JFileChooser fChooser = new JFileChooser();
+		fChooser.setCurrentDirectory(new File("/home/me/Documents"));
+		int retrival = fChooser.showSaveDialog(null);
+		if (retrival == JFileChooser.APPROVE_OPTION) {
+			
+			try {
+				ImageIO.write(canvas.BufferedImage(), "PNG", new File(fChooser.getSelectedFile()+".PNG"));
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
+
 	}
 }
 

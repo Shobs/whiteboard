@@ -3,8 +3,9 @@ package main.java.controller;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.RenderedImage;
 import java.util.ArrayList;
-
+import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
@@ -353,6 +354,18 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			 this.addShape(models[i]);
 			 
 		}
+	}
+
+
+	public RenderedImage BufferedImage() {
+		 BufferedImage render = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+	      Graphics graph = render.getGraphics();
+	     DShape currentShape = selectedShape;
+	     selectedShape = null;
+	     paint(graph);
+	     selectedShape = currentShape;
+	      return render;
 	}
 	
 	
