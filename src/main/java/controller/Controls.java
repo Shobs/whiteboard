@@ -292,7 +292,7 @@ public class Controls {
 				return;
 			}
 			Object result = d.readObject();
-			canvas.loadShapeModels((DShapeModel[]) result);
+			canvas.loadModels((DShapeModel[]) result);
 			d.close();
 		}
 	}

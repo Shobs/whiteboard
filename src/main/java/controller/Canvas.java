@@ -343,7 +343,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	{
 		this.controls = c;
 	}
-	public void loadShapeModels(DShapeModel[] models){
+	public void loadModels(DShapeModel[] models){
 		for(int i = 0; i < shapes.size(); i++ ){
 			shapes.get(i).delete();
 		}
