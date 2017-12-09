@@ -15,22 +15,20 @@ public class DText extends DShape{
 
 	@Override
 	public void draw(Graphics g){
-		/*
 		this.g = g;
 		g.setColor(model.getColor());
 	
-		Shape clip = g.getClip();
-		
 		Font font = new Font(((DTextModel)model).getStr(), Font.PLAIN, computeFont(g, (DTextModel)model));
 		
 		g.setFont(font);
-		g.drawString(((DTextModel)model).getStr(), model.x  , model.y+(int)(model.height*.75));
-		
-		generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(), 0);
+		Rectangle clip = new Rectangle((int)model.getX() - 4, (int)model.getY() - 4, (int)model.getWidth() + 8, (int)model.getHeight() * 2);
 		g.setClip(clip);
+		g.drawString(((DTextModel)model).getStr(), (int)model.getX(), (int)(model.getY() + model.getHeight()));
+		generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(), 0);
 		
-		super.draw(g);*/
+		super.draw(g);
 	}
+	
 	private int computeFont(Graphics g, DTextModel textMod)
 	{
 		
