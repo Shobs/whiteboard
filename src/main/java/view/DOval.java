@@ -14,6 +14,7 @@ public class DOval extends DShape{
 		this.g = g;
 		g.setColor(model.getColor());
 		g.fillOval((int)model.getX(), (int)model.getY(), (int)model.getWidth(), (int)model.getHeight());
+		generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(),0);
 		super.draw(g);
 	}
 

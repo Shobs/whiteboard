@@ -18,12 +18,20 @@ public class DShape implements ModelListener {
 	 */
 	public void draw(Graphics g) {
 		if (knobVisibility) {
-			generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(),0);
+			if(model instanceof DLineModel)
+			{
+				for(int i = 0;  i < 2; i++)
+				{
+					g.setColor(Color.blue);
+					 g.fillRect((int) knobs[i].getX(), (int) knobs[i].getY(), (int) knobs[i].getWidth(), (int) knobs[i].getHeight());
+				}
+			}else
+			{
 			for (Rectangle r : knobs) {
 				
 				g.setColor(Color.BLUE);
-				
-				g.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
+			 g.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
+			}
 			}
 		}
 
@@ -79,6 +87,7 @@ public class DShape implements ModelListener {
 	 * @return the index of the knob which contains the point
 	 */
 	public int isKnob(Point p) {
+		
 		for (int i = 0; i < knobs.length; i++)
 			if (knobs[i].contains(p))
 				return i;

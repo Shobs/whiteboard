@@ -38,6 +38,7 @@ public class DText extends DShape{
 	
 		//g.setClip(clip.getBounds().intersection(model));
 		// make sure to figure out what to do with where to place the text
+		generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(),0);
 		g.setClip(clip);
 		
 		super.draw(g);

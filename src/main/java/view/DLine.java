@@ -13,17 +13,18 @@ public class DLine extends DShape{
 
 	@Override
 	public void draw(Graphics g){
-		System.out.println("In DLine draw");
+		
 		this.g = g;
 		g.setColor(lineModel.getColor());
 		g.drawLine((int)lineModel.getX1(), (int)lineModel.getY1(), (int)lineModel.getX2(), (int)lineModel.getY2());
+		generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(),0);
 		super.draw(g);
 	}
 
 	/**
 	 * @Override
 	 */
-	public void generateKnobs(int x, int y, int width, int height){
+	public void generateKnobs(int x, int y, int width, int height, int anchor){
 		knobs[0] = new Rectangle((int)lineModel.getX1(), (int)lineModel.getY1(), 8, 8);
 		knobs[1] = new Rectangle((int)lineModel.getX2(), (int)lineModel.getY2(), 8, 8);
 	}

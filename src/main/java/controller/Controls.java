@@ -12,8 +12,6 @@ import main.java.view.*;
 
 import javax.swing.JTable;
 import main.java.model.DShapeModel;
-import main.java.view.DText;
-import main.java.view.ModelListener;
 
 public class Controls {
 	Canvas canvas;
@@ -64,7 +62,9 @@ public class Controls {
 		JButton line = new JButton("Line");
 		line.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				DLineModel line = new DLineModel();
+				canvas.addShape(line);
+				canvas.paintComponent(canvas.getGraphics());
 
 			}
 		});
@@ -203,30 +203,30 @@ public class Controls {
 
 	}
 	
-	public JTable generateTable(ArrayList<DShape> shapes){
-		TableModel table = new AbstractTableModel(){
-			public int getColumnCount(){ return 4;}
-			
-			public int getRowCount() { return shapes.size();}
-			
-			public Object getValueAt(int row, int column){
-				DShape shape = shapes.get(row);
-				switch(column){
-					case 0: 
-						return shape.getModel().getX();
-					case 1:
-						return shape.getModel().getY();
-					case 2:
-						return shape.getModel().getWidth();
-					case 3:
-						return shape.getModel().getHeight();
-					default:
-						return null;
-				}
-			}
-		};
-		return new JTable(table);
-	}
+//	public JTable generateTable(ArrayList<DShape> shapes){
+//		TableModel table = new AbstractTableModel(){
+//			public int getColumnCount(){ return 4;}
+//			
+//			public int getRowCount() { return shapes.size();}
+//			
+//			public Object getValueAt(int row, int column){
+//				DShape shape = shapes.get(row);
+//				switch(column){
+//					case 0: 
+//						return shape.getModel().getX();
+//					case 1:
+//						return shape.getModel().getY();
+//					case 2:
+//						return shape.getModel().getWidth();
+//					case 3:
+//						return shape.getModel().getHeight();
+//					default:
+//						return null;
+//				}
+//			}
+//		};
+//		return new JTable(table);
+//	}
 	public void reDraw()
 	{
 		 textString.setEditable((canvas.selectedShape instanceof DText));
