@@ -191,7 +191,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 				int x = (int) r.getCenterX();
 				int y = (int) r.getCenterY();
 				selectedShape.resize(e.getX(), e.getY(), x, y);
-				 
+
 				selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
 						(int) selectedShape.getModel().getY(), (int) selectedShape.getModel().getWidth(),
 						(int) selectedShape.getModel().getHeight(), anchor);
@@ -244,7 +244,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 		selectedShape.generateKnobs((int) selectedShape.getModel().getX(), (int) selectedShape.getModel().getY(),
 				(int) selectedShape.getModel().getWidth(), (int) selectedShape.getModel().getHeight(),0);
-		
+
 	}
 
 	@Override
@@ -264,9 +264,9 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		repaint();
 
 	}
-	
-	
-	
+
+
+
 	public void changeFont(String nType)
 	{
 		if(selectedShape != null && (selectedShape instanceof DText))
@@ -275,7 +275,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			text.setType(nType);
 		}
 	}
-	public void changeContent(String nText) 
+	public void changeContent(String nText)
 	{
 		if(selectedShape != null && (selectedShape instanceof DText))
 		{
@@ -283,8 +283,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			text.setStr(nText);
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 }
