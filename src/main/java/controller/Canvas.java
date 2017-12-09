@@ -1,27 +1,14 @@
 package main.java.controller;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.event.MouseInputListener;
+import main.java.model.*;
+import main.java.view.*;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
-import main.java.model.DLineModel;
-import main.java.model.DOvalModel;
-import main.java.model.DRectModel;
-import main.java.model.DShapeModel;
-import main.java.model.DTextModel;
-import main.java.view.DLine;
-import main.java.view.DOval;
-import main.java.view.DRect;
-import main.java.view.DShape;
-import main.java.view.DText;
-import main.java.view.ModelListener;
 
 public class Canvas extends JPanel implements MouseInputListener, ModelListener {
 	ArrayList<DShape> shapes;
@@ -244,8 +231,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 					if(anchor == 0)
 					{
-						((DLineModel)selectedShape.getModel()).setX2((int) (e.getX()));
-						((DLineModel)selectedShape.getModel()).setY2((int) (e.getY()));
+						((DLineModel)selectedShape.getModel()).setX((int) (e.getX()));
+						((DLineModel)selectedShape.getModel()).setX((int) (e.getY()));
 					}else
 					{
 						((DLineModel)selectedShape.getModel()).setX((int) (e.getX()));
@@ -287,8 +274,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			int differenceBetY = (int) (((DLineModel)selectedShape.getModel()).getY2()-((DLineModel)selectedShape.getModel()).getY1());
 			selectedShape.getModel().setX((int) (pm.getX() - width));
 			selectedShape.getModel().setY((int) (pm.getY() - height));
-			((DLineModel)selectedShape.getModel()).setX2((int) (((DLineModel)selectedShape.getModel()).getX1()+differenceBetX));
-			((DLineModel)selectedShape.getModel()).setY2((int) (((DLineModel)selectedShape.getModel()).getY1()+differenceBetY));
+			((DLineModel)selectedShape.getModel()).setX((int) (((DLineModel)selectedShape.getModel()).getX1()+differenceBetX));
+			((DLineModel)selectedShape.getModel()).setX((int) (((DLineModel)selectedShape.getModel()).getY1()+differenceBetY));
 			
 
 		}
