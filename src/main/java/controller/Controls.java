@@ -189,20 +189,5 @@ public class Controls  {
 		return container;
 
 	}
-	
-	public JTable generateTable(ArrayList<DShape> shapes){
-		String[] columnNames = {"X", "Y", "Width", "Height"};
-	
-		Object[][] data = new Object[shapes.size()][4];
-		for(int i = 0; i < data.length; i++){
-			DShapeModel m = shapes.get(i).getModel();
-			data[i][0] = m.getX(); data[i][1] = m.getY(); data[i][2] = m.getWidth(); data[i][3] = m.getHeight();
-		}
-			
-		
-		JTable table = new JTable(data, columnNames);
-		table.setFillsViewportHeight(true);
-		return table;
-	}
 }
 
