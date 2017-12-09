@@ -1,40 +1,56 @@
 package main.java.controller;
 
+<<<<<<< HEAD
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import main.java.model.DOvalModel;
+import main.java.model.DRectModel;
+import main.java.model.DShapeModel;
+import main.java.model.DTextModel;
+import main.java.view.DShape;
+import main.java.view.DText;
+import main.java.view.ModelListener;
+=======
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.*;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
-
+import javax.swing.JTable;
 import main.java.model.*;
 import main.java.view.*;
-import main.java.model.DShapeModel;
+
+>>>>>>> 74fa7aa09c456c6cc3a12e512d4a1aa61827c448
 
 public class Controls {
 	Canvas canvas;
 	JTextField textString ;
 	JPanel container;
-	JLabel clientOrServer;
-	private JTable table;
-	private JScrollPane tablePane;
 	
 
 	public Controls(Canvas c) {
 		canvas = c;
-		table= generateTable(canvas.getShapes());
-		tablePane = new JScrollPane(table);
 	}
 	
 
@@ -76,14 +92,16 @@ public class Controls {
 		JButton line = new JButton("Line");
 		line.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DLineModel line = new DLineModel();
-				canvas.addShape(line);
-				canvas.paintComponent(canvas.getGraphics());
+				// TODO Auto-generated method stub
 
 			}
 		});
 		shapes.add(line);
 		
+		
+		
+
+	
 		
 		JButton text = new JButton("Text");
 		text.addActionListener(new ActionListener() {
@@ -168,7 +186,6 @@ public class Controls {
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(canvas.selectedShape);
 					canvas.repaint();
-					reDraw();
 				}
 			}
 		});
@@ -177,10 +194,10 @@ public class Controls {
 		moveToBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(canvas.selectedShape != null){
+					
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(0,canvas.selectedShape);
 					canvas.repaint();
-					reDraw();
 				}
 			}
 		});
@@ -194,71 +211,21 @@ public class Controls {
 							//canvas.selectedShape.delete();
 							canvas.selectedShape = null;
 							canvas.repaint();
-							reDraw();
 				}
 				
 				
 			}
 		});
 		fourthPanel.add(removeShape);
-		Box fifth = Box.createHorizontalBox();
-		JButton saveButton = new JButton("Save");
-		saveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				save();
-			}
-		});
-		fifth.add(saveButton);
-		
-		JButton openButton = new JButton("Open");
-		openButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				open();
-			}
-		});
-		
-		fifth.add(openButton);
-		fifth.add(saveButton);
+<<<<<<< HEAD
 		
 		
-		JButton saveAsButton = new JButton("Save As PNG");
-		saveAsButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveAsImage();
-			}
-		});
-		
-		fifth.add(saveAsButton);		
+//		JTable table = new JTable(canvas):
+//			
+=======
+>>>>>>> 74fa7aa09c456c6cc3a12e512d4a1aa61827c448
 		container.add(fourthPanel);
 		
-		container.add(fifth);
-		
-		
-		//Server and Clinets 
-		Box sixth = Box.createHorizontalBox();
-		JButton startServerButton = new JButton("Start Server");
-		startServerButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				startServer();
-			}
-		});
-		JButton startClientButton = new JButton("Start Client");
-		startClientButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				startClient();
-			}
-		});
-		
-		sixth.add(startServerButton);
-		sixth.add(startClientButton);
-		
-		clientOrServer = new JLabel("");
-		sixth.add(clientOrServer);
-		
-		
-		container.add(sixth);
-		
-		container.add(tablePane);
 		
 		for (Component c : container.getComponents()) {
 			((JComponent) c).setAlignmentX(Box.LEFT_ALIGNMENT);
@@ -268,7 +235,11 @@ public class Controls {
 
 	}
 	
-
+<<<<<<< HEAD
+//	public TableModel generateTable(ArrayList<DShape> shape)
+//	{
+//		
+//	}
 	public void reDraw()
 	{
 		 textString.setEditable((canvas.selectedShape instanceof DText));
@@ -276,118 +247,33 @@ public class Controls {
 		{
 		  textString.setText(((DTextModel)canvas.selectedShape.getModel()).getStr());
 		}
-		
-		container.remove(tablePane);
-		table = generateTable(canvas.getShapes());
-		tablePane = new JScrollPane(table);
-		container.add(tablePane);
-		container.revalidate();
-		container.repaint();
 	}
-	
-	private void save() {
 
-		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new File("C:\\Users\\anis\\Documents\\CS151"));
-		int retrival = chooser.showSaveDialog(null);
-		if (retrival == JFileChooser.APPROVE_OPTION) {
-			try {
-				XMLEncoder e = new XMLEncoder(
-						new BufferedOutputStream(new FileOutputStream(chooser.getSelectedFile() + ".xml")));
-				DShapeModel[] modelShapes = canvas.getModels();
-				e.writeObject(modelShapes);
-				e.flush();
-				e.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-
-	}
-	
-	//make protected
-	private void open() {
-		
-		JFileChooser fchooser = new JFileChooser();
-		
-		int retrival = fchooser.showOpenDialog(null);
-		if (retrival == JFileChooser.APPROVE_OPTION) {
-			XMLDecoder d = null;
-			try {
-
-				d = new XMLDecoder(new BufferedInputStream(new FileInputStream(fchooser.getSelectedFile())));
-			} catch (FileNotFoundException e) {
-				
-				e.printStackTrace();
-				return;
-			}
-			Object res = d.readObject();
-			canvas.loadModels((DShapeModel[]) res);
-			d.close();
-		}
-	}
-	
-	private void saveAsImage() {
-
-		JFileChooser fChooser = new JFileChooser();
-		fChooser.setCurrentDirectory(new File("/home/me/Documents"));
-		int retrival = fChooser.showSaveDialog(null);
-		if (retrival == JFileChooser.APPROVE_OPTION) {
-			
-			try {
-				ImageIO.write(canvas.BufferedImage(), "PNG", new File(fChooser.getSelectedFile()+".PNG"));
-			} catch (IOException e) {
-				
-				e.printStackTrace();
-			}
-		}
-
-	}
-	
-	private void startServer(){
-		JTextField PortNumber = new JTextField();
-		PortNumber.setText("47000");
-		
-		final JComponent[] inputs = new JComponent[] {
-		        new JLabel("Please Enter Port Number"),
-		        PortNumber   
-		};
-		int result = JOptionPane.showConfirmDialog(null, inputs, "Server", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
-		if (result == JOptionPane.OK_OPTION) {
-			System.out.println(PortNumber.getText());
-		}else{
-			return;
-		}
-	}
-	private void startClient(){
-		JTextField Port = new JTextField();
-		Port.setText("47000");
-		
-		final JComponent[] inputs = new JComponent[] {
-		        new JLabel("Please Enter Port Number"),
-		        Port   
-		};
-		int result = JOptionPane.showConfirmDialog(null, inputs, "Client", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
-		if (result == JOptionPane.OK_OPTION) {
-			System.out.println(Port.getText());
-		}else{
-			return;
-		}
-	}
-	
+=======
 	public JTable generateTable(ArrayList<DShape> shapes){
-		String[] col = {"X", "Y", "Width","Height"};
-		
-		Object[][] data = new Object[shapes.size()][4];
-		for(int i = 0; i < shapes.size(); i++){
-			data[i][0] = shapes.get(i).getModel().getX();
-			data[i][1] = shapes.get(i).getModel().getY();
-			data[i][2] = shapes.get(i).getModel().getWidth();
-			data[i][3] = shapes.get(i).getModel().getHeight();
-		}
-		JTable table= new JTable(data, col);
-		table.setFillsViewportHeight(true);
-		return table;
+		TableModel table = new AbstractTableModel(){
+			public int getColumnCount(){ return 4;}
+			
+			public int getRowCount() { return shapes.size();}
+			
+			public Object getValueAt(int row, int column){
+				DShape shape = shapes.get(row);
+				switch(column){
+					case 0: 
+						return shape.getModel().getX();
+					case 1:
+						return shape.getModel().getY();
+					case 2:
+						return shape.getModel().getWidth();
+					case 3:
+						return shape.getModel().getHeight();
+					default:
+						return null;
+				}
+			}
+		};
+		return new JTable(table);
 	}
+>>>>>>> 74fa7aa09c456c6cc3a12e512d4a1aa61827c448
 }
 
