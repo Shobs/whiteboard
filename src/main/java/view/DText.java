@@ -24,19 +24,13 @@ public class DText extends DShape{
 	
 		Shape clip = g.getClip();
 		
-		Font font = new Font(((DTextModel)model).getType(), Font.PLAIN, computeFont(g, (DTextModel)model));
+		Font font = new Font(((DTextModel)model).getStr(), Font.PLAIN, computeFont(g, (DTextModel)model));
+		
 		g.setFont(font);
 		g.drawString(((DTextModel)model).getStr(), model.x  , model.y+(int)(model.height*.75));
 		
-		
-		//Font font = scaleFont(g, (DTextModel)model);
-		
-		
+		//g.setClip(clip.getBounds().intersection(getBounds()));
 	
-		//g.setClip(clip.getBounds().intersection(model));
-		
-	
-		//g.setClip(clip.getBounds().intersection(model));
 		// make sure to figure out what to do with where to place the text
 		generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(),0);
 		g.setClip(clip);

@@ -1,14 +1,28 @@
 package main.java.controller;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.RenderedImage;
+import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.event.MouseInputListener;
 
-import main.java.model.*;
-import main.java.view.*;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
+import main.java.model.DLineModel;
+import main.java.model.DOvalModel;
+import main.java.model.DRectModel;
+import main.java.model.DShapeModel;
+import main.java.model.DTextModel;
+import main.java.view.DLine;
+import main.java.view.DOval;
+import main.java.view.DRect;
+import main.java.view.DShape;
+import main.java.view.DText;
+import main.java.view.ModelListener;
 
 public class Canvas extends JPanel implements MouseInputListener, ModelListener {
 	ArrayList<DShape> shapes;
@@ -95,12 +109,15 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			}
 
 		}
+
 		if (selectedShape != null) {
 			selectedShape.setKnobVisibility(true);
 			paintComponent(getGraphics());
 			width = e.getX() - selectedShape.getModel().getX();
 			height = e.getY() - selectedShape.getModel().getY();
+
 		}
+		
 		controls.reDraw();
 		repaint();
 	}
@@ -159,8 +176,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		} else {
 			System.out.println("none of the above");
 		}
-		controls.reDraw();
 		this.repaint();
+		controls.reDraw();
 	}
 
 	@Override
@@ -231,8 +248,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 					if(anchor == 0)
 					{
-						((DLineModel)selectedShape.getModel()).setX((int) (e.getX()));
-						((DLineModel)selectedShape.getModel()).setX((int) (e.getY()));
+						((DLineModel)selectedShape.getModel()).setX2((int) (e.getX()));
+						((DLineModel)selectedShape.getModel()).setY2((int) (e.getY()));
 					}else
 					{
 						((DLineModel)selectedShape.getModel()).setX((int) (e.getX()));
@@ -274,8 +291,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			int differenceBetY = (int) (((DLineModel)selectedShape.getModel()).getY2()-((DLineModel)selectedShape.getModel()).getY1());
 			selectedShape.getModel().setX((int) (pm.getX() - width));
 			selectedShape.getModel().setY((int) (pm.getY() - height));
-			((DLineModel)selectedShape.getModel()).setX((int) (((DLineModel)selectedShape.getModel()).getX1()+differenceBetX));
-			((DLineModel)selectedShape.getModel()).setX((int) (((DLineModel)selectedShape.getModel()).getY1()+differenceBetY));
+			((DLineModel)selectedShape.getModel()).setX2((int) (((DLineModel)selectedShape.getModel()).getX1()+differenceBetX));
+			((DLineModel)selectedShape.getModel()).setY2((int) (((DLineModel)selectedShape.getModel()).getY1()+differenceBetY));
 			
 
 		}
@@ -320,8 +337,6 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		if(selectedShape != null && (selectedShape instanceof DText))
 		{
 			((DTextModel)selectedShape.getModel()).setStr(nText);
-//			DTextModel text = (DTextModel)selectedShape.getModel();
-//			text.setStr(nText);
 		}
 	}
 	
@@ -339,6 +354,18 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			 this.addShape(models[i]);
 			 
 		}
+	}
+
+
+	public RenderedImage BufferedImage() {
+		 BufferedImage render = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+	      Graphics graph = render.getGraphics();
+	     DShape currentShape = selectedShape;
+	     selectedShape = null;
+	     paint(graph);
+	     selectedShape = currentShape;
+	      return render;
 	}
 	
 	public ArrayList<DShape> getShapes(){ return shapes; }

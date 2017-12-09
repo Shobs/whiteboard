@@ -18,6 +18,26 @@ public class DLineModel extends DShapeModel{
 		p2 = new Point((int)(this.getX() + this.getWidth()),(int)(this.getY() + this.getHeight()));
 	}
 
+	public void setX(int x)
+	{
+		p1.setLocation(x, p1.getY());
+		
+	}
+	public void setY(int y)
+	{
+		p1.setLocation(p1.getX(), y);
+	}
+	
+	public void setX2(int x)
+	{
+		p2.setLocation(x, p2.getY());
+		
+	}
+	public void setY2(int y)
+	{
+		p2.setLocation(p2.getX(), y);
+	}
+	
 	public double getX1(){ return p1.getX(); }
 
 	public double getX2(){ return p2.getX(); }
