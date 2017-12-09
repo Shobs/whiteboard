@@ -6,11 +6,17 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.*;
 
 import javax.imageio.ImageIO;
@@ -18,6 +24,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import javafx.scene.control.TextInputDialog;
 import main.java.model.*;
 import main.java.view.*;
 import main.java.model.DShapeModel;
@@ -29,7 +36,7 @@ public class Controls {
 	JLabel clientOrServer;
 	private JTable table;
 	private JScrollPane tablePane;
-	
+	private ArrayList<ObjectOutputStream> outputs = new ArrayList<ObjectOutputStream>();
 
 	public Controls(Canvas c) {
 		canvas = c;
@@ -354,26 +361,150 @@ public class Controls {
 		};
 		int result = JOptionPane.showConfirmDialog(null, inputs, "Server", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
 		if (result == JOptionPane.OK_OPTION) {
-			System.out.println(PortNumber.getText());
+			clientOrServer.setText("Server Mode");
+			WelcomeServer ws = new WelcomeServer(Integer.parseInt(PortNumber.getText()));
+			ws.start();
 		}else{
 			return;
 		}
 	}
 	private void startClient(){
-		JTextField Port = new JTextField();
-		Port.setText("47000");
+		JTextField PortNumber = new JTextField();
+		PortNumber.setText("47000");
 		
 		final JComponent[] inputs = new JComponent[] {
 		        new JLabel("Please Enter Port Number"),
-		        Port   
+		        PortNumber  
 		};
 		int result = JOptionPane.showConfirmDialog(null, inputs, "Client", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
 		if (result == JOptionPane.OK_OPTION) {
-			System.out.println(Port.getText());
+			clientOrServer.setText("Client Mode");
+			ClientHandler ch = new ClientHandler("127.0.0.1", Integer.parseInt(PortNumber.getText()) );
+			ch.start();
 		}else{
 			return;
 		}
 	}
+	
+//	public void doClient() {
+//		TextInputDialog dialog = new TextInputDialog("127.0.0.1:47000");
+//		dialog.setTitle("New Cleint Connection");
+//		dialog.setHeaderText("Connect to host:port");
+//		dialog.setContentText("Please enter an IP and port number:");
+//		Optional<String> result = dialog.showAndWait();
+//		result.ifPresent(address -> {
+//			String[] parts = address.split(":");
+//            System.out.println("client: start");
+//            ClientHandler clientHandler = new ClientHandler(parts[0].trim(), Integer.parseInt(parts[1].trim()));
+//            clientHandler.start();
+//		});
+//    }
+	class WelcomeServer extends Thread
+	{
+		private int portNumber;
+		WelcomeServer(int p)
+		{
+			portNumber = p;
+		}
+		
+		public void run()
+		{
+			 try{
+				   ServerSocket serverSocket = new ServerSocket(portNumber);
+				   while(true){
+					   Socket toClient = null;
+					   
+					   toClient = serverSocket.accept();
+					   clientOrServer.setText("got Client");
+					   outputs.add(new ObjectOutputStream(toClient.getOutputStream()));
+					   PrintWriter sockOut = new PrintWriter(toClient.getOutputStream(), true);
+//					   for(DShape shape : canvas.getShapes()){
+//						  sendRemote(Command.ADD, shape.getdShapeModel());
+//					   }
+				   }	
+			   }catch(IOException ex){
+				   ex.printStackTrace();
+			   }
+		}
+	}
+	
+	private class ClientHandler extends Thread {
+        private String name;
+        private int port;
+        ClientHandler(String name, int port) {
+        	this.setDaemon(true);
+            this.name = name;
+            this.port = port;
+        }
+   
+        public void run() {
+            try {
+                
+                Socket toServer = new Socket(name, port);
+              
+                ObjectInputStream in = new ObjectInputStream(toServer.getInputStream());
+                System.out.println("client: connected!");
+               
+                while (true) {
+                   
+                	String action = (String) in.readObject();
+                    String xmlString = (String) in.readObject();
+                    XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(xmlString.getBytes()));
+                    DShapeModel model = (DShapeModel) decoder.readObject();
+//                    DShape shape = model.createShape();
+//                    shape.setId(model.getId());
+//                    shape.setWholeText(model.getWholeText());
+//                    shape.setText(model.getWholeText());
+//                    shape.setFontName(model.getFontName());
+//                    Font font = new Font(model.getFontName(), model.getFontSize());
+//                    shape.setFont(font);
+//                    int index = 0;
+//                    for(int i = 0; i < shapes.size(); i++) {
+//                    	if(action.equals("add"))
+//                    		break;
+//                    	if(shapes.get(i).getId() == shape.getId())
+//                    		index = i;
+//                    }
+//                    switch(action) {
+//                    case "add":
+//                    	shapes.add(shape);
+//                    	tableData.add(shape.getShapeModel());
+//                    	break;
+//                    case "remove":
+//                    	shapes.remove(index);
+//                    	tableData.remove(index);
+//                    	break;
+//                    case "front":
+//                    	shapes.remove(index);
+//                    	tableData.remove(index);
+//                    	shapes.add(shape);
+//                    	tableData.add(shape.getShapeModel());
+//                    	break;
+//                    case "back":
+//                    	shapes.remove(index);
+//                    	tableData.remove(index);
+//                    	shapes.add(0, shape);
+//                    	tableData.add(0, shape.getShapeModel());
+//                    	break;
+//                    case "modify":
+//                    	shapes.get(index).setShape(shape.getShapeModel());
+//                    	tableData.get(index).setDShapeModel(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+//                    	break;
+//                    }
+//                    table.setItems(tableData);
+//                    table.refresh();
+//                    redraw();
+                }
+            }
+            catch (Exception ex) { // IOException and ClassNotFoundException
+            	ex.printStackTrace();
+                System.err.println("Connection interrupted");
+            }
+            // Could null out client ptr.
+            // Note that exception breaks out of the while loop,
+            // thus ending the thread.
+       }
+    }
 	
 	public JTable generateTable(ArrayList<DShape> shapes){
 		String[] col = {"X", "Y", "Width","Height"};
