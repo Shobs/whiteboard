@@ -75,7 +75,13 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		if (selectedShape != null) {
 			selectedKnob = selectedShape.isKnob(e.getPoint());
 			if (selectedKnob != -1) {
-				anchor = getAnchor(selectedKnob);
+				if(selectedShape instanceof DLine)
+				{
+					anchor = (selectedKnob == 1)?0:1;
+				}else
+				{
+					anchor = getAnchor(selectedKnob);
+				}
 
 			} else {
 				selectedShape.setKnobVisibility(false);
@@ -225,14 +231,20 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 				if(selectedShape instanceof DLine)
 				{
 					anchor = (selectedKnob == 1)?0:1;
-					
-					
+
+					if(anchor == 0)
+					{
+						((DLineModel)selectedShape.getModel()).setX2((int) (e.getX()));
+						((DLineModel)selectedShape.getModel()).setY2((int) (e.getY()));
+					}else
+					{
+						((DLineModel)selectedShape.getModel()).setX((int) (e.getX()));
+						((DLineModel)selectedShape.getModel()).setY((int) (e.getY()));
+					}
 				}else
 				{
-					
+					anchor = getAnchor(selectedKnob);
 				
-				anchor = getAnchor(selectedKnob);
-				}
 				Rectangle r = selectedShape.getKnobs()[anchor];
 				int x = (int) r.getCenterX();
 				int y = (int) r.getCenterY();
@@ -241,6 +253,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 				selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
 						(int) selectedShape.getModel().getY(), (int) selectedShape.getModel().getWidth(),
 						(int) selectedShape.getModel().getHeight(), anchor);
+				}
 				
 			} else {
 
@@ -256,7 +269,18 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		Point pm = e.getPoint();
 		Point ps = new Point();
 		ps.setLocation(selectedShape.getBounds().getX(), selectedShape.getBounds().getY());
+		
+		if(selectedShape instanceof DLine)
+		{
+			int differenceBetX = (int) (((DLineModel)selectedShape.getModel()).getX2()-((DLineModel)selectedShape.getModel()).getX1());
+			int differenceBetY = (int) (((DLineModel)selectedShape.getModel()).getY2()-((DLineModel)selectedShape.getModel()).getY1());
+			selectedShape.getModel().setX((int) (pm.getX() - width));
+			selectedShape.getModel().setY((int) (pm.getY() - height));
+			((DLineModel)selectedShape.getModel()).setX2((int) (((DLineModel)selectedShape.getModel()).getX1()+differenceBetX));
+			((DLineModel)selectedShape.getModel()).setY2((int) (((DLineModel)selectedShape.getModel()).getY1()+differenceBetY));
+			
 
+		}
 		selectedShape.getModel().setX((int) (pm.getX() - width));
 		selectedShape.getModel().setY((int) (pm.getY() - height));
 

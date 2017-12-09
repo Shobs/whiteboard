@@ -71,10 +71,6 @@ public class Controls {
 		shapes.add(line);
 		
 		
-		
-
-	
-		
 		JButton text = new JButton("Text");
 		text.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
