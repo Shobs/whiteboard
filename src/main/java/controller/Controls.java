@@ -5,29 +5,32 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.table.*;
-import javax.swing.JTable;
+
 import main.java.model.*;
 import main.java.view.*;
 
-
-public class Controls  {
+public class Controls {
 	private Canvas canvas;
+	private JTextField textString ;
+	private JPanel container;
 	private JTable table;
+	private JScrollPane tablePane;
+
 	public Controls(Canvas c) {
 		canvas = c;
+		container = new JPanel();
+		table = generateTable(c.getShapes());
+		tablePane = new JScrollPane(table);
 	}
-	
-
 
 	public JPanel createButtons() {
-		JPanel container = new JPanel(); // main VerticalBox which contains all
-											// buttons
+		 // main VerticalBox which contains all
+		// buttons
 		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
 		container.setPreferredSize(new Dimension(400, 0));
 
 		JPanel shapes = new JPanel(); // first Horizontal panel which contains
-										// all shape
+		// all shape
 		shapes.setLayout(new BoxLayout(shapes, BoxLayout.LINE_AXIS));
 		shapes.add(new JLabel("ADD : "));
 
@@ -38,7 +41,6 @@ public class Controls  {
 				DRectModel rect = new DRectModel();
 				canvas.addShape(rect);
 				canvas.paintComponent(canvas.getGraphics());
-				table = generateTable(canvas.getShapes());
 			}
 		});
 		shapes.add(Rect);
@@ -49,7 +51,6 @@ public class Controls  {
 				DOvalModel oval = new DOvalModel();
 				canvas.addShape(oval);
 				canvas.paintComponent(canvas.getGraphics());
-				table = generateTable(canvas.getShapes());
 			}
 		});
 		shapes.add(oval);
@@ -57,48 +58,22 @@ public class Controls  {
 		JButton line = new JButton("Line");
 		line.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				table = generateTable(canvas.getShapes());
+				DLineModel line = new DLineModel();
+				canvas.addShape(line);
+				canvas.paintComponent(canvas.getGraphics());
 			}
 		});
 		shapes.add(line);
-		
-		
-		JComboBox<String> fontC = new JComboBox<String>(
-				GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
-		fontC.setSelectedItem("Dialog");
-		fontC.setMaximumSize(new Dimension(300, 150));
 
-		fontC.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				canvas.changeFont((String)fontC.getSelectedItem());
-			}
-		});
-
-		JTextField textS = new JTextField("Hello");
-		textS.setMaximumSize(new Dimension(200, 150));
-		textS.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				 canvas.changeContent(textS.getText());
-			}
-		});
-		
-		
 		JButton text = new JButton("Text");
 		text.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DTextModel dText = new DTextModel();
 				canvas.addShape(dText);
-				table = generateTable(canvas.getShapes());
-//				canvas.paintComponent(canvas.getGraphics());
+				canvas.paintComponent(canvas.getGraphics());
 			}
 		});
+
 		shapes.add(text);
 		container.add(shapes);
 
@@ -109,43 +84,60 @@ public class Controls  {
 			public void actionPerformed(ActionEvent e) {
 				if(canvas.selectedShape != null)
 				{
-				Color initialBackground = canvas.selectedShape.getModel().getColor();
-		        Color background = JColorChooser.showDialog(null,
-		            "JColorChooser Sample", initialBackground);
-				canvas.selectedShape.getModel().setColor(background);
-				
-				canvas.repaint();
+					Color initialBackground = canvas.selectedShape.getModel().getColor();
+					Color background = JColorChooser.showDialog(null,
+							"JColorChooser Sample", initialBackground);
+					canvas.selectedShape.getModel().setColor(background);
+					canvas.repaint();
 				}
-				
 			}
-
 		});
 		secondPanel.add(setColor);
 		container.add(secondPanel);
 
 		//
 		Box thirdPanel = Box.createHorizontalBox();
-		JTextField textString = new JTextField("Whiteboard");
-		textString.setMaximumSize(new Dimension(200, 25));
-		thirdPanel.add(textString);
-		JButton scriptButton = new JButton("Edwardian Script");
-		scriptButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+		textString = new JTextField("Hello");
+		textString.setMaximumSize(new Dimension(200, 30));
+		textString.setEditable(false);
+		textString.getDocument().addDocumentListener(new DocumentListener() {
+
+			public void changedUpdate(DocumentEvent e) {
+				canvas.changeContent(textString.getText());
+
+			}
+			public void removeUpdate(DocumentEvent e) {
+				canvas.changeContent(textString.getText());
+			}
+			public void insertUpdate(DocumentEvent e) {
+				canvas.changeContent(textString.getText());
 			}
 		});
-		thirdPanel.add(scriptButton);
+
+
+		thirdPanel.add(textString);
+		JComboBox<String> fontC = new JComboBox<String>(
+				GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
+		fontC.setSelectedItem("Dialog");
+		fontC.setMaximumSize(new Dimension(200, 30));
+
+		fontC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				canvas.changeFont((String)fontC.getSelectedItem());
+			}
+		});
+		thirdPanel.add(fontC);
 		container.add(thirdPanel);
 
 		Box fourthPanel = Box.createHorizontalBox();
 		JButton moveToFront = new JButton("Move To Front");
 		moveToFront.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(canvas.selectedShape != null){
-					
+				if(canvas.selectedShape != null){	
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(canvas.selectedShape);
 					canvas.repaint();
+					reDraw();
 				}
 			}
 		});
@@ -157,7 +149,7 @@ public class Controls  {
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(0,canvas.selectedShape);
 					canvas.repaint();
-					table = generateTable(canvas.getShapes());
+					reDraw();
 				}
 			}
 		});
@@ -167,24 +159,51 @@ public class Controls  {
 			public void actionPerformed(ActionEvent e) {
 				if(canvas.selectedShape != null)
 				{
-							canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
-							//canvas.selectedShape.delete();
-							canvas.selectedShape = null;
-							canvas.repaint();
+					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
+					canvas.selectedShape = null;
+					canvas.repaint();
+					reDraw();
 				}
-				
-				
 			}
 		});
 		fourthPanel.add(removeShape);
-		container.add(fourthPanel);
 		
-		for (Component c : container.getComponents()) {
+		container.add(fourthPanel);
+	
+		container.add(tablePane);
+		
+		for (Component c : container.getComponents()) 
 			((JComponent) c).setAlignmentX(Box.LEFT_ALIGNMENT);
-		}
-
 		return container;
+	}
 
+	public void reDraw(){
+		textString.setEditable((canvas.selectedShape instanceof DText));
+		if(canvas.selectedShape instanceof DText )
+			textString.setText(((DTextModel)canvas.selectedShape.getModel()).getStr());
+		
+		container.remove(tablePane);
+		table = generateTable(canvas.getShapes());
+		tablePane = new JScrollPane(table);
+		container.add(tablePane);
+		container.revalidate();
+		container.repaint();
+	}
+
+	public JTable generateTable(ArrayList<DShape> shapes){
+		String[] columnNames = {"X", "Y", "Width", "Height" };
+
+		Object[][] data = new Object[shapes.size()][4];
+		for(int i = 0; i < shapes.size(); i++){
+			data[i][0] = shapes.get(i).getModel().getX();
+			data[i][1] = shapes.get(i).getModel().getY();
+			data[i][2] = shapes.get(i).getModel().getWidth();
+			data[i][3] = shapes.get(i).getModel().getHeight();
+		}
+		
+		JTable table = new JTable(data, columnNames);
+		table.setFillsViewportHeight(true);
+		return table;
 	}
 }
 
