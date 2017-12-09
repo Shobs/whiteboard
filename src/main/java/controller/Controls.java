@@ -17,21 +17,24 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
-import javax.swing.JTable;
+
 import main.java.model.*;
 import main.java.view.*;
-
-import javax.swing.JTable;
 import main.java.model.DShapeModel;
 
 public class Controls {
 	Canvas canvas;
 	JTextField textString ;
 	JPanel container;
+	JLabel clientOrServer;
+	private JTable table;
+	private JScrollPane tablePane;
 	
 
 	public Controls(Canvas c) {
 		canvas = c;
+		table= generateTable(canvas.getShapes());
+		tablePane = new JScrollPane(table);
 	}
 	
 
@@ -165,6 +168,7 @@ public class Controls {
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(canvas.selectedShape);
 					canvas.repaint();
+					reDraw();
 				}
 			}
 		});
@@ -173,10 +177,10 @@ public class Controls {
 		moveToBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(canvas.selectedShape != null){
-					
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(0,canvas.selectedShape);
 					canvas.repaint();
+					reDraw();
 				}
 			}
 		});
@@ -190,6 +194,7 @@ public class Controls {
 							//canvas.selectedShape.delete();
 							canvas.selectedShape = null;
 							canvas.repaint();
+							reDraw();
 				}
 				
 				
@@ -225,12 +230,35 @@ public class Controls {
 		
 		fifth.add(saveAsButton);		
 		container.add(fourthPanel);
+		
 		container.add(fifth);
 		
 		
-
+		//Server and Clinets 
+		Box sixth = Box.createHorizontalBox();
+		JButton startServerButton = new JButton("Start Server");
+		startServerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				startServer();
+			}
+		});
+		JButton startClientButton = new JButton("Start Client");
+		startClientButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				startClient();
+			}
+		});
+		
+		sixth.add(startServerButton);
+		sixth.add(startClientButton);
+		
+		clientOrServer = new JLabel("");
+		sixth.add(clientOrServer);
 		
 		
+		container.add(sixth);
+		
+		container.add(tablePane);
 		
 		for (Component c : container.getComponents()) {
 			((JComponent) c).setAlignmentX(Box.LEFT_ALIGNMENT);
@@ -248,6 +276,13 @@ public class Controls {
 		{
 		  textString.setText(((DTextModel)canvas.selectedShape.getModel()).getStr());
 		}
+		
+		container.remove(tablePane);
+		table = generateTable(canvas.getShapes());
+		tablePane = new JScrollPane(table);
+		container.add(tablePane);
+		container.revalidate();
+		container.repaint();
 	}
 	
 	private void save() {
@@ -307,6 +342,52 @@ public class Controls {
 			}
 		}
 
+	}
+	
+	private void startServer(){
+		JTextField PortNumber = new JTextField();
+		PortNumber.setText("47000");
+		
+		final JComponent[] inputs = new JComponent[] {
+		        new JLabel("Please Enter Port Number"),
+		        PortNumber   
+		};
+		int result = JOptionPane.showConfirmDialog(null, inputs, "Server", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
+		if (result == JOptionPane.OK_OPTION) {
+			System.out.println(PortNumber.getText());
+		}else{
+			return;
+		}
+	}
+	private void startClient(){
+		JTextField Port = new JTextField();
+		Port.setText("47000");
+		
+		final JComponent[] inputs = new JComponent[] {
+		        new JLabel("Please Enter Port Number"),
+		        Port   
+		};
+		int result = JOptionPane.showConfirmDialog(null, inputs, "Client", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
+		if (result == JOptionPane.OK_OPTION) {
+			System.out.println(Port.getText());
+		}else{
+			return;
+		}
+	}
+	
+	public JTable generateTable(ArrayList<DShape> shapes){
+		String[] col = {"X", "Y", "Width","Height"};
+		
+		Object[][] data = new Object[shapes.size()][4];
+		for(int i = 0; i < shapes.size(); i++){
+			data[i][0] = shapes.get(i).getModel().getX();
+			data[i][1] = shapes.get(i).getModel().getY();
+			data[i][2] = shapes.get(i).getModel().getWidth();
+			data[i][3] = shapes.get(i).getModel().getHeight();
+		}
+		JTable table= new JTable(data, col);
+		table.setFillsViewportHeight(true);
+		return table;
 	}
 }
 
