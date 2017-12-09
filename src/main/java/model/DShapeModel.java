@@ -18,7 +18,7 @@ public class DShapeModel extends Rectangle {
         mls = new ArrayList();
     }
 
-    public DShapeModel(int h, int w, int x, int y){
+    public DShapeModel(int x, int y, int w, int h){
         height = h;
         width = w;
         this.x = x;

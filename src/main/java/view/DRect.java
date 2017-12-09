@@ -23,7 +23,5 @@ public class DRect extends DShape{
 	 */
 	public void modelChanged(DShapeModel mod){
 		isChanged = true;
-		
-		
 	}
 }

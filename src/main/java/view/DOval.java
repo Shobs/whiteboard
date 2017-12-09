@@ -11,6 +11,7 @@ public class DOval extends DShape{
 
 	@Override
 	public void draw(Graphics g){
+		System.out.println("In DOval draw");
 		this.g = g;
 		g.setColor(model.getColor());
 		g.fillOval((int)model.getX(), (int)model.getY(), (int)model.getWidth(), (int)model.getHeight());

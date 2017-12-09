@@ -17,6 +17,7 @@ public class DShape implements ModelListener {
 	 * Method that draws object on canvas
 	 */
 	public void draw(Graphics g) {
+		System.out.println("In DShape draw");
 		if (knobVisibility) {
 			//generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight());
 			for (Rectangle r : knobs) {
@@ -53,6 +54,7 @@ public class DShape implements ModelListener {
 	public Rectangle getBounds() {
 		return model.getBounds();
 	}
+
 	public void delete(){
 		model.deleteM();
 		model = null;
@@ -72,9 +74,7 @@ public class DShape implements ModelListener {
 
 	/**
 	 * Checks if point on canvas is on a knob
-	 * 
-	 * @param p
-	 *            is the point to be checked
+	 * @param p is the point to be checked
 	 * @return the index of the knob which contains the point
 	 */
 	public int isKnob(Point p) {
@@ -88,12 +88,7 @@ public class DShape implements ModelListener {
 		return model.contains(p);
 	}
 
-	public void generateKnobs(int x, int y, int width, int height,int anchor) {
-
-//		System.out.println("X = "+ x + "Y " + y+ " width = "+ width+ " h ="+ height + " a = "+ anchor);
-		
-		
-		
+	public void generateKnobs(int x, int y, int width, int height, int anchor) {
 		int w = 8, h = 8;
 		double topLeftX;
 		double topLeftY;
@@ -125,7 +120,6 @@ public class DShape implements ModelListener {
 	}
 
 	public void resize(int X, int Y, int Xa, int Ya) {
-		
 		model.setX(Math.min(X, Xa));
 		model.setY(Math.min(Y, Ya));
 		model.setWidth((Math.abs(X - Xa)));

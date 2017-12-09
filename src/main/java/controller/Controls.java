@@ -12,8 +12,8 @@ import main.java.view.*;
 
 
 public class Controls  {
-	Canvas canvas;
-
+	private Canvas canvas;
+	private JTable table;
 	public Controls(Canvas c) {
 		canvas = c;
 	}
@@ -38,7 +38,7 @@ public class Controls  {
 				DRectModel rect = new DRectModel();
 				canvas.addShape(rect);
 				canvas.paintComponent(canvas.getGraphics());
-
+				table = generateTable(canvas.getShapes());
 			}
 		});
 		shapes.add(Rect);
@@ -49,7 +49,7 @@ public class Controls  {
 				DOvalModel oval = new DOvalModel();
 				canvas.addShape(oval);
 				canvas.paintComponent(canvas.getGraphics());
-
+				table = generateTable(canvas.getShapes());
 			}
 		});
 		shapes.add(oval);
@@ -58,7 +58,7 @@ public class Controls  {
 		line.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
+				table = generateTable(canvas.getShapes());
 			}
 		});
 		shapes.add(line);
@@ -93,9 +93,9 @@ public class Controls  {
 		JButton text = new JButton("Text");
 		text.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				DTextModel dText = new DTextModel();
 				canvas.addShape(dText);
+				table = generateTable(canvas.getShapes());
 //				canvas.paintComponent(canvas.getGraphics());
 			}
 		});
@@ -154,10 +154,10 @@ public class Controls  {
 		moveToBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(canvas.selectedShape != null){
-					
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(0,canvas.selectedShape);
 					canvas.repaint();
+					table = generateTable(canvas.getShapes());
 				}
 			}
 		});
@@ -179,6 +179,8 @@ public class Controls  {
 		fourthPanel.add(removeShape);
 		container.add(fourthPanel);
 		
+		JScrollPane scrollPane = new JScrollPane(generateTable(canvas.getShapes()));
+		container.add(scrollPane);
 		
 		for (Component c : container.getComponents()) {
 			((JComponent) c).setAlignmentX(Box.LEFT_ALIGNMENT);
@@ -189,28 +191,18 @@ public class Controls  {
 	}
 	
 	public JTable generateTable(ArrayList<DShape> shapes){
-		TableModel table = new AbstractTableModel(){
-			public int getColumnCount(){ return 4;}
+		String[] columnNames = {"X", "Y", "Width", "Height"};
+	
+		Object[][] data = new Object[shapes.size()][4];
+		for(int i = 0; i < data.length; i++){
+			DShapeModel m = shapes.get(i).getModel();
+			data[i][0] = m.getX(); data[i][1] = m.getY(); data[i][2] = m.getWidth(); data[i][3] = m.getHeight();
+		}
 			
-			public int getRowCount() { return shapes.size();}
-			
-			public Object getValueAt(int row, int column){
-				DShape shape = shapes.get(row);
-				switch(column){
-					case 0: 
-						return shape.getModel().getX();
-					case 1:
-						return shape.getModel().getY();
-					case 2:
-						return shape.getModel().getWidth();
-					case 3:
-						return shape.getModel().getHeight();
-					default:
-						return null;
-				}
-			}
-		};
-		return new JTable(table);
+		
+		JTable table = new JTable(data, columnNames);
+		table.setFillsViewportHeight(true);
+		return table;
 	}
 }
 

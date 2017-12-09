@@ -154,6 +154,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		} else {
 			System.out.println("none of the above");
 		}
+		
 		this.repaint();
 	}
 
@@ -275,6 +276,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			text.setType(nType);
 		}
 	}
+	
 	public void changeContent(String nText) 
 	{
 		if(selectedShape != null && (selectedShape instanceof DText))
@@ -284,7 +286,5 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		}
 	}
 	
-	
-	
-	
+	public ArrayList<DShape> getShapes(){ return shapes; }
 }
