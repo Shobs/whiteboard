@@ -179,9 +179,6 @@ public class Controls  {
 		fourthPanel.add(removeShape);
 		container.add(fourthPanel);
 		
-		JScrollPane scrollPane = new JScrollPane(generateTable(canvas.getShapes()));
-		container.add(scrollPane);
-		
 		for (Component c : container.getComponents()) {
 			((JComponent) c).setAlignmentX(Box.LEFT_ALIGNMENT);
 		}
