@@ -103,31 +103,15 @@ public class DShape implements ModelListener {
 	}
 
 	public void generateKnobs(int x, int y, int width, int height,int anchor) {
-
-//		System.out.println("X = "+ x + "Y " + y+ " width = "+ width+ " h ="+ height + " a = "+ anchor);
-
-
-
 		int w = 8, h = 8;
-		double topLeftX;
-		double topLeftY;
-		double topRightX;
-		double topRightY;
-		double bottomLeftX;
-		double bottomLeftY;
-		double bottomRightX;
-		double bottomRightY;
-
-
-		topLeftX = x;
-		topLeftY = y;
-		topRightX = x + width;
-		topRightY = topLeftY;
-		bottomLeftX = topLeftX;
-		bottomLeftY = topLeftY + height;
-		bottomRightX = topRightX;
-		bottomRightY = topRightY + height;
-
+		double topLeftX = x;
+		double topLeftY = y;
+		double topRightX = x + width;
+		double topRightY = topLeftY;
+		double bottomLeftX = topLeftX;
+		double bottomLeftY = topLeftY + height;
+		double bottomRightX = topRightX;
+		double bottomRightY = topRightY + height;
 		// topLeft
 		knobs[0] = new Rectangle((int) topLeftX - 4, (int) topLeftY - 4, w, h);
 		// topRight

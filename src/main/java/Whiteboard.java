@@ -24,33 +24,25 @@ import main.java.controller.Canvas;
 import main.java.controller.Controls;
 import main.java.view.DText;
 
-/*
- * whiteboard (main class)
- * 
- */
-public class Whiteboard extends JFrame 
-{
+public class Whiteboard extends JFrame {
 	Canvas canvas;
 	Controls controls;
 
-	/*
-	 * constructor call super to create Jframe
-	 */
+
 	public Whiteboard() {
 		super("WhiteBoard");
-		super.setDefaultCloseOperation(EXIT_ON_CLOSE);// set the defualt close
-														// option
+		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		BorderLayout bl = new BorderLayout();
-		super.setLayout(bl); // setting up frame to border layout
+		super.setLayout(bl); 
 		canvas = new Canvas();
 		controls = new Controls(canvas);
-		
+
 		JPanel buttons = controls.createButtons();
 		canvas.setControls(controls);
 		super.add(canvas, BorderLayout.CENTER); // center of Frame is canvas
 		super.add(buttons, BorderLayout.WEST);
-		
+
 		this.pack();
 		super.setVisible(true);
 	}
