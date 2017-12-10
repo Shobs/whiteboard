@@ -32,19 +32,21 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	int selectedKnob = -1;
 	boolean change = true;
 	int anchor;
+	int[] diffs;
 	Controls controls;
-	
+
 
 	public Canvas() {
 		super();
 		shapes = new ArrayList<DShape>();
+		diffs = new int[4];
 		setPreferredSize(new Dimension(400, 400));
 		setBackground(Color.WHITE);
 		addMouseMotionListener(this);
 		addMouseListener(this);
 	}
 
-	
+
 	public DShapeModel[] getModels()
 	{
 		DShapeModel[] models = new DShapeModel[shapes.size()];
@@ -57,7 +59,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	@Override
 	public void repaint() {
 		if (shapes != null) {
-				super.repaint();
+			super.repaint();
 		}
 		super.repaint();
 	}
@@ -66,6 +68,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (DShape shape : shapes) {
+			System.out.println("paint co");
 			shape.draw(g);
 		}
 	}
@@ -82,9 +85,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	public void mousePressed(MouseEvent e) {
 
 		Point p = e.getPoint();
-		
-			
-		
+
 		if (selectedShape != null) {
 			selectedKnob = selectedShape.isKnob(e.getPoint());
 			if (selectedKnob != -1) {
@@ -111,31 +112,45 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		}
 
 		if (selectedShape != null) {
+
+			if(selectedShape instanceof DLine){
+				int x1 = (int)((DLineModel)selectedShape.getModel()).getX1();
+				int x2 = (int)((DLineModel)selectedShape.getModel()).getX2();
+				int y1 = (int)((DLineModel)selectedShape.getModel()).getY1();
+				int y2 = (int)((DLineModel)selectedShape.getModel()).getY2();
+
+				diffs[0] = x1 - e.getX();
+				diffs[1] = y1 - e.getY();
+				diffs[2] = x2 - e.getX();
+				diffs[3] = y2 - e.getY();
+			}
+
+
 			selectedShape.setKnobVisibility(true);
 			paintComponent(getGraphics());
 			width = e.getX() - selectedShape.getModel().getX();
 			height = e.getY() - selectedShape.getModel().getY();
 
 		}
-		
+
 		controls.reDraw();
 		repaint();
 	}
 
 	public int getAnchor(int knob) {
 		anchor = -1;
-		
+
 		switch (knob) {
-		case 0:
+			case 0:
 			anchor = 3;
 			break;
-		case 1:
+			case 1:
 			anchor = 2;
 			break;
-		case 2:
+			case 2:
 			anchor = 1;
 			break;
-		case 3:
+			case 3:
 			anchor = 0;
 			break;
 
@@ -143,8 +158,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 		return anchor;
 	}
-	
-	
+
+
 
 	public void addShape(DShapeModel model) {
 		if (model instanceof DRectModel) {
@@ -187,7 +202,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 //
 //		}
 		//repaint();
-		
+
 		Point p = e.getPoint();
 
 		if (selectedShape != null) {
@@ -205,6 +220,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		for (DShape d : shapes) {
 			if (d.isSelected(p)) {
 				selectedShape = d;
+				if(controls.isServer)
+					controls.sendRemote("selected", selectedShape.getModel());
 			}
 
 		}
@@ -216,7 +233,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			height = e.getY() - selectedShape.getModel().getY();
 
 		}
-		
+		if(controls.isServer)
+			controls.sendRemote("modify", selectedShape.getModel());
 
 		repaint();
 	}
@@ -238,10 +256,12 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 
+
 		if (selectedShape != null) {
 
 			if (selectedKnob != -1) {
 //				selectedKnob = selectedShape.isKnob(e.getPoint());
+
 				if(selectedShape instanceof DLine)
 				{
 					anchor = (selectedKnob == 1)?0:1;
@@ -252,56 +272,68 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 						((DLineModel)selectedShape.getModel()).setY2((int) (e.getY()));
 					}else
 					{
-						((DLineModel)selectedShape.getModel()).setX((int) (e.getX()));
-						((DLineModel)selectedShape.getModel()).setY((int) (e.getY()));
+						((DLineModel)selectedShape.getModel()).setX1((int) (e.getX()));
+						((DLineModel)selectedShape.getModel()).setY1((int) (e.getY()));
 					}
 				}else
 				{
 					anchor = getAnchor(selectedKnob);
-				
-				Rectangle r = selectedShape.getKnobs()[anchor];
-				int x = (int) r.getCenterX();
-				int y = (int) r.getCenterY();
-				selectedShape.resize(e.getX(), e.getY(), x, y);
-				 
-				selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
+
+					Rectangle r = selectedShape.getKnobs()[anchor];
+					int x = (int) r.getCenterX();
+					int y = (int) r.getCenterY();
+					selectedShape.resize(e.getX(), e.getY(), x, y);
+
+					selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
 						(int) selectedShape.getModel().getY(), (int) selectedShape.getModel().getWidth(),
 						(int) selectedShape.getModel().getHeight(), anchor);
+
+					if (e.getY() < y) {
+						selectedKnob = ((e.getX() < x)?0:1);
+					} else{
+						selectedKnob = ((e.getX() < x)?2:3);
+					}
 				}
-				
+
+
 			} else {
 
 				moveSelectedShape(e);
 
 			}
+			if(controls.isServer)
+				controls.sendRemote("modify", selectedShape.getModel());
 			repaint();
 			controls.reDraw();
 		}
-
 	}
+
 
 	public void moveSelectedShape(MouseEvent e) {
 		Point pm = e.getPoint();
 		Point ps = new Point();
 		ps.setLocation(selectedShape.getBounds().getX(), selectedShape.getBounds().getY());
-		
+
 		if(selectedShape instanceof DLine)
 		{
-			int differenceBetX = (int) (((DLineModel)selectedShape.getModel()).getX2()-((DLineModel)selectedShape.getModel()).getX1());
-			int differenceBetY = (int) (((DLineModel)selectedShape.getModel()).getY2()-((DLineModel)selectedShape.getModel()).getY1());
-			selectedShape.getModel().setX((int) (pm.getX() - width));
-			selectedShape.getModel().setY((int) (pm.getY() - height));
-			((DLineModel)selectedShape.getModel()).setX2((int) (((DLineModel)selectedShape.getModel()).getX1()+differenceBetX));
-			((DLineModel)selectedShape.getModel()).setY2((int) (((DLineModel)selectedShape.getModel()).getY1()+differenceBetY));
-			
+
+			((DLineModel)selectedShape.getModel()).setX1(e.getX() + diffs[0]);
+			((DLineModel)selectedShape.getModel()).setY1(e.getY() + diffs[1]);
+
+			((DLineModel)selectedShape.getModel()).setX2(e.getX() + diffs[2]);
+			((DLineModel)selectedShape.getModel()).setY2(e.getY() + diffs[3]);
 
 		}
+
 		selectedShape.getModel().setX((int) (pm.getX() - width));
 		selectedShape.getModel().setY((int) (pm.getY() - height));
 
+
+
+
 //		selectedShape.generateKnobs((int) selectedShape.getModel().getX(), (int) selectedShape.getModel().getY(),
 //				(int) selectedShape.getModel().getWidth(), (int) selectedShape.getModel().getHeight(),0);
-//		
+//
 	}
 
 	@Override
@@ -319,11 +351,10 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	@Override
 	public void modelChanged(DShapeModel model) {
 		repaint();
-
 	}
-	
-	
-	
+
+
+
 	public void changeFont(String nType)
 	{
 		if(selectedShape != null && (selectedShape instanceof DText))
@@ -332,18 +363,19 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			text.setType(nType);
 		}
 	}
-	public void changeContent(String nText) 
+	public void changeContent(String nText)
 	{
 		if(selectedShape != null && (selectedShape instanceof DText))
 		{
 			((DTextModel)selectedShape.getModel()).setStr(nText);
 		}
 	}
-	
+
 	public void setControls(Controls c)
 	{
 		this.controls = c;
 	}
+
 	public void loadModels(DShapeModel[] models){
 		for(int i = 0; i < shapes.size(); i++ ){
 			shapes.get(i).delete();
@@ -351,22 +383,22 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		selectedShape = null;
 		shapes.clear();
 		for(int i = 0; i < models.length; i++ ){
-			 this.addShape(models[i]);
-			 
+			this.addShape(models[i]);
+
 		}
 	}
 
 
 	public RenderedImage BufferedImage() {
-		 BufferedImage render = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage render = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-	      Graphics graph = render.getGraphics();
-	     DShape currentShape = selectedShape;
-	     selectedShape = null;
-	     paint(graph);
-	     selectedShape = currentShape;
-	      return render;
+		Graphics graph = render.getGraphics();
+		DShape currentShape = selectedShape;
+		selectedShape = null;
+		paint(graph);
+		selectedShape = currentShape;
+		return render;
 	}
-	
+
 	public ArrayList<DShape> getShapes(){ return shapes; }
 }

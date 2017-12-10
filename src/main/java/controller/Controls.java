@@ -7,6 +7,7 @@ import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -37,7 +39,7 @@ public class Controls {
 	private JTable table;
 	private JScrollPane tablePane;
 	private ArrayList<ObjectOutputStream> outputs = new ArrayList<ObjectOutputStream>();
-
+	protected boolean isServer = false;
 	public Controls(Canvas c) {
 		canvas = c;
 		table= generateTable(canvas.getShapes());
@@ -63,6 +65,8 @@ public class Controls {
 			public void actionPerformed(ActionEvent e) {
 				DRectModel rect = new DRectModel();
 				canvas.addShape(rect);
+				if(isServer)
+					sendRemote("add", rect);
 				canvas.paintComponent(canvas.getGraphics());
 
 			}
@@ -74,6 +78,8 @@ public class Controls {
 			public void actionPerformed(ActionEvent e) {
 				DOvalModel oval = new DOvalModel();
 				canvas.addShape(oval);
+				if(isServer)
+					sendRemote("add", oval);
 				canvas.paintComponent(canvas.getGraphics());
 
 			}
@@ -85,6 +91,8 @@ public class Controls {
 			public void actionPerformed(ActionEvent e) {
 				DLineModel line = new DLineModel();
 				canvas.addShape(line);
+				if(isServer)
+					sendRemote("add", line);
 				canvas.paintComponent(canvas.getGraphics());
 
 			}
@@ -98,7 +106,8 @@ public class Controls {
 				
 				DTextModel dText = new DTextModel();
 				canvas.addShape(dText);
-				
+				if(isServer)
+					sendRemote("add", dText);
 				canvas.paintComponent(canvas.getGraphics());
 				
 			}
@@ -117,6 +126,8 @@ public class Controls {
 		        Color background = JColorChooser.showDialog(null,
 		            "JColorChooser Sample", initialBackground);
 				canvas.selectedShape.getModel().setColor(background);
+				if(isServer)
+					sendRemote("modify", canvas.selectedShape.getModel());
 				
 				canvas.repaint();
 				}
@@ -174,6 +185,8 @@ public class Controls {
 					
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(canvas.selectedShape);
+					if(isServer)
+						sendRemote("front", canvas.selectedShape.getModel());
 					canvas.repaint();
 					reDraw();
 				}
@@ -186,6 +199,8 @@ public class Controls {
 				if(canvas.selectedShape != null){
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(0,canvas.selectedShape);
+					if(isServer)
+						sendRemote("back", canvas.selectedShape.getModel());
 					canvas.repaint();
 					reDraw();
 				}
@@ -199,7 +214,10 @@ public class Controls {
 				{
 							canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 							//canvas.selectedShape.delete();
+							if(isServer)
+								sendRemote("remove", canvas.selectedShape.getModel());
 							canvas.selectedShape = null;
+							
 							canvas.repaint();
 							reDraw();
 				}
@@ -286,6 +304,7 @@ public class Controls {
 		
 		container.remove(tablePane);
 		table = generateTable(canvas.getShapes());
+		
 		tablePane = new JScrollPane(table);
 		container.add(tablePane);
 		container.revalidate();
@@ -362,8 +381,10 @@ public class Controls {
 		int result = JOptionPane.showConfirmDialog(null, inputs, "Server", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
 		if (result == JOptionPane.OK_OPTION) {
 			clientOrServer.setText("Server Mode");
+			isServer = true;
 			WelcomeServer ws = new WelcomeServer(Integer.parseInt(PortNumber.getText()));
 			ws.start();
+			
 		}else{
 			return;
 		}
@@ -386,19 +407,7 @@ public class Controls {
 		}
 	}
 	
-//	public void doClient() {
-//		TextInputDialog dialog = new TextInputDialog("127.0.0.1:47000");
-//		dialog.setTitle("New Cleint Connection");
-//		dialog.setHeaderText("Connect to host:port");
-//		dialog.setContentText("Please enter an IP and port number:");
-//		Optional<String> result = dialog.showAndWait();
-//		result.ifPresent(address -> {
-//			String[] parts = address.split(":");
-//            System.out.println("client: start");
-//            ClientHandler clientHandler = new ClientHandler(parts[0].trim(), Integer.parseInt(parts[1].trim()));
-//            clientHandler.start();
-//		});
-//    }
+
 	class WelcomeServer extends Thread
 	{
 		private int portNumber;
@@ -415,12 +424,9 @@ public class Controls {
 					   Socket toClient = null;
 					   
 					   toClient = serverSocket.accept();
-					   clientOrServer.setText("got Client");
+					   clientOrServer.setText("connected to Client");
 					   outputs.add(new ObjectOutputStream(toClient.getOutputStream()));
-					   PrintWriter sockOut = new PrintWriter(toClient.getOutputStream(), true);
-//					   for(DShape shape : canvas.getShapes()){
-//						  sendRemote(Command.ADD, shape.getdShapeModel());
-//					   }
+					  
 				   }	
 			   }catch(IOException ex){
 				   ex.printStackTrace();
@@ -445,55 +451,79 @@ public class Controls {
                 ObjectInputStream in = new ObjectInputStream(toServer.getInputStream());
                 System.out.println("client: connected!");
                
+               
                 while (true) {
-                   
+                	
                 	String action = (String) in.readObject();
                     String xmlString = (String) in.readObject();
                     XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(xmlString.getBytes()));
                     DShapeModel model = (DShapeModel) decoder.readObject();
-//                    DShape shape = model.createShape();
+                    System.out.println("action");
+                    DShape shape = model.createShape();
 //                    shape.setId(model.getId());
 //                    shape.setWholeText(model.getWholeText());
 //                    shape.setText(model.getWholeText());
 //                    shape.setFontName(model.getFontName());
-//                    Font font = new Font(model.getFontName(), model.getFontSize());
+//                    if(model instanceof DTextModel)
+//                    {
+//                      Font font = new Font(((DTextModel)model).getType(), 10, 10);
+//                    }
 //                    shape.setFont(font);
-//                    int index = 0;
-//                    for(int i = 0; i < shapes.size(); i++) {
-//                    	if(action.equals("add"))
-//                    		break;
-//                    	if(shapes.get(i).getId() == shape.getId())
-//                    		index = i;
-//                    }
-//                    switch(action) {
-//                    case "add":
-//                    	shapes.add(shape);
-//                    	tableData.add(shape.getShapeModel());
-//                    	break;
-//                    case "remove":
-//                    	shapes.remove(index);
-//                    	tableData.remove(index);
-//                    	break;
-//                    case "front":
-//                    	shapes.remove(index);
-//                    	tableData.remove(index);
-//                    	shapes.add(shape);
-//                    	tableData.add(shape.getShapeModel());
-//                    	break;
-//                    case "back":
-//                    	shapes.remove(index);
-//                    	tableData.remove(index);
-//                    	shapes.add(0, shape);
-//                    	tableData.add(0, shape.getShapeModel());
-//                    	break;
-//                    case "modify":
-//                    	shapes.get(index).setShape(shape.getShapeModel());
-//                    	tableData.get(index).setDShapeModel(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
-//                    	break;
-//                    }
-//                    table.setItems(tableData);
-//                    table.refresh();
-//                    redraw();
+                    int index = 0;
+                    for(int i = 0; i < canvas.shapes.size(); i++) {
+                    	if(action.equals("add"))
+                    		break;
+                    	if(canvas.shapes.get(i) == shape)
+                    		index = i;
+                    }
+                 
+                    switch(action) {
+                    case "add":
+                    	System.out.println("working");
+                    	canvas.shapes.add(shape);
+                    	canvas.paintComponent(canvas.getGraphics());
+                    	reDraw();
+                    	//tableData.add(shape.getShapeModel());
+                    	break;
+                    case "remove":
+                    	canvas.shapes.remove(index);
+                    	canvas.paintComponent(canvas.getGraphics());
+                    	reDraw();
+                    	//tableData.remove(index);
+                    	break;
+                    case "front":
+                    	canvas.shapes.remove(index);
+                    	//tableData.remove(index);
+                    	canvas.shapes.add(shape);
+                    	canvas.paintComponent(canvas.getGraphics());
+                    	reDraw();
+                    	//tableData.add(shape.getShapeModel());
+                    	break;
+                    case "back":
+                    	canvas.shapes.remove(index);
+                    	//tableData.remove(index);
+                    	canvas.shapes.add(0, shape);
+                    	canvas.paintComponent(canvas.getGraphics());
+                    	reDraw();
+                    	//tableData.add(0, shape.getShapeModel());
+                    	break;
+                    case "modify":
+                    	
+                    	canvas.shapes.get(index).setModel(model);
+                    	canvas.paintComponent(canvas.getGraphics());
+                    	reDraw();
+                    	break;
+                    case "selected":
+                    	canvas.setSelectedShape(shape);
+                    	canvas.paintComponent(canvas.getGraphics());
+                    	reDraw();
+                    	break;
+                    }
+                    canvas.paintComponent(canvas.getGraphics());
+                  //  table.setItems(tableData);
+                    //table.refresh();
+                    //canvas.redraw();
+                    
                 }
             }
             catch (Exception ex) { // IOException and ClassNotFoundException
@@ -519,6 +549,32 @@ public class Controls {
 		JTable table= new JTable(data, col);
 		table.setFillsViewportHeight(true);
 		return table;
+	}
+	
+	public synchronized void sendRemote(String action, DShapeModel shape) {
+        // Convert the message object into an xml string.
+        OutputStream memStream = new ByteArrayOutputStream();
+        XMLEncoder encoder = new XMLEncoder(memStream);
+        encoder.writeObject(shape);
+        encoder.close();
+        String xmlString = memStream.toString();
+        
+        Iterator<ObjectOutputStream> it = outputs.iterator();
+        while (it.hasNext()) {
+            ObjectOutputStream out = it.next();
+            try {
+            	out.writeObject(action);
+                out.flush();
+                out.writeObject(xmlString);
+                out.flush();
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+                System.err.println("Connection interrupted");
+                it.remove();
+                
+            }
+        }
 	}
 }
 

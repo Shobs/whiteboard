@@ -6,14 +6,14 @@ public class DLine extends DShape{
 	private Graphics g;
 	private DLineModel lineModel = null;
 	public DLine(DShapeModel model){
-		this.model = model;
+		super(model);;
 		lineModel = (DLineModel)model;
 		this.knobs = new Rectangle[2];
-	}    
+	}
 
 	@Override
 	public void draw(Graphics g){
-		
+
 		this.g = g;
 		g.setColor(lineModel.getColor());
 		g.drawLine((int)lineModel.getX1(), (int)lineModel.getY1(), (int)lineModel.getX2(), (int)lineModel.getY2());
@@ -33,6 +33,6 @@ public class DLine extends DShape{
 	 * @Override
 	 */
 	public void modelChanged(DShapeModel model){
-		
-	} 
+		isChanged = true;
+	}
 }
