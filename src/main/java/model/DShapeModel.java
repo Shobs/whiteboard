@@ -6,7 +6,6 @@ import main.java.view.*;
 
 public class DShapeModel extends Rectangle {
 	private Color c;
-
 	private ArrayList<ModelListener> mls;
 
 	public DShapeModel(){

@@ -50,8 +50,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	public DShapeModel[] getModels()
 	{
 		DShapeModel[] models = new DShapeModel[shapes.size()];
-		for(int i = 0; i < shapes.size(); i++)
-		{
+		for(int i = 0; i < shapes.size(); i++){
 			models[i] = shapes.get(i).getModel();
 		}
 		return  models;

@@ -13,12 +13,10 @@ public class DTextModel extends DShapeModel{
 		
 	}
 	
-	public DTextModel()
-	
-	{
+	public DTextModel(){
 		super();
 		str = "Hello";
-		type = "Dialog";
+		type = "Papyrus";
 	}
 	
 	public void setStr(String st)
