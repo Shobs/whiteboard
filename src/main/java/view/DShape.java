@@ -7,37 +7,28 @@ import com.sun.javafx.geom.Point2D;
 
 public class DShape implements ModelListener {
 	protected boolean isChanged = false;
-	protected DShapeModel model; // Data that represents the view
-	protected Rectangle[] knobs = new Rectangle[4]; // Rectangles that indicate
-													// the corners of the shape
-	protected boolean knobVisibility; // Determines the visbility of the knob to
-										// the user
+	protected DShapeModel model; 
+	protected Rectangle[] knobs = new Rectangle[4]; 
+	protected boolean knobVisibility; 
 
-	public DShape(DShapeModel d)
-	{
+	public DShape(DShapeModel d){
 		model = d;
 	}
-	/**
-	 * Method that draws object on canvas
-	 */
+	
 	public void draw(Graphics g) {
 		if (knobVisibility) {
-			if(model instanceof DLineModel)
-			{
-				for(int i = 0;  i < 2; i++)
-				{
+			if(model instanceof DLineModel){
+				for(int i = 0;  i < 2; i++){
 					g.setColor(Color.blue);
 					g.fillRect((int) knobs[i].getX(), (int) knobs[i].getY(), (int) knobs[i].getWidth(), (int) knobs[i].getHeight());
 				}
 			}else{
 				for (Rectangle r : knobs) {
-
 					g.setColor(Color.BLUE);
 					g.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 				}
 			}
 		}
-
 	}
 
 	public boolean getIsChanged() {
@@ -50,51 +41,33 @@ public class DShape implements ModelListener {
 
 	public boolean contains(Point p) {
 		boolean r = getBounds().contains(p);
-
-		if (r == false) {
-			for (Rectangle rec : knobs) {
+		if (r == false) 
+			for (Rectangle rec : knobs) 
 				r = rec.getBounds().contains(p);
-			}
-		}
 		return r;
 	}
 
-	/**
-	 * @return a Rectangle object representation of the shape
-	 */
 	public Rectangle getBounds() {
 		return model.getBounds();
 	}
+	
 	public void delete(){
 		model.deleteM();
 		model = null;
 	}
 
-	/**
-	 * @Override
-	 */
 	public void modelChanged(DShapeModel model) {
 
 	}
 
-	// Setters and Getters
 	public DShapeModel getModel() {
 		return model;
 	}
 
-	/**
-	 * Checks if point on canvas is on a knob
-	 *
-	 * @param p
-	 *            is the point to be checked
-	 * @return the index of the knob which contains the point
-	 */
 	public int isKnob(Point p) {
-
-		for (int i = 0; i < knobs.length; i++){
+		for (int i = 0; i < knobs.length; i++)
 			if (knobs[i].contains(p))
 				return i;
-		}
 		return -1;
 	}
 
@@ -123,14 +96,11 @@ public class DShape implements ModelListener {
 	}
 
 	public void resize(int X, int Y, int Xa, int Ya) {
-
 		model.setX(Math.min(X, Xa));
 		model.setY(Math.min(Y, Ya));
 		model.setWidth((Math.abs(X - Xa)));
 		model.setHeight(Math.abs(Y - Ya));
-
 		model.notifyListeners();
-
 	}
 
 	public void setModel(DShapeModel model) {

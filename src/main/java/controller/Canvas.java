@@ -299,7 +299,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 
 	public void changeFont(String nType){
-		if(selectedShape != null && (selectedShape instanceof DText)){
+
+		if(selectedShape != null && (selectedShape.getModel() instanceof DTextModel)){
 			DTextModel text = (DTextModel)selectedShape.getModel();
 			text.setType(nType);
 		}

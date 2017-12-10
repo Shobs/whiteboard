@@ -110,24 +110,18 @@ public class DShapeModel extends Rectangle {
 
 
 	public DShape createShape(){
-
 		if (this instanceof DRectModel) {
 			DRect rect = new DRect(this);
 			return rect;
-
-
 		} else if (this instanceof DOvalModel) {
 			DOval ov = new DOval(this);
 			return ov;
-
 		} else if (this instanceof DLineModel) {
 			DLine ln = new DLine(this);
 			return ln;
-
 		} else  {
 			DText tx = new DText(this);
 			return tx;
-
 		}
 	}
 

@@ -7,7 +7,6 @@ public class DText extends DShape{
 	Graphics g;
 	public DText(DShapeModel model){
 		super(model);
-		System.out.println("Constructor ");
 	}
 
 	@Override
@@ -17,9 +16,11 @@ public class DText extends DShape{
 		g.setColor(model.getColor());
 		Rectangle clip = new Rectangle((int)model.getX() - 4, (int)model.getY() - 4, (int)model.getWidth() + 8, (int)(model.getHeight() * 1.75));
 		g.setClip(clip);
-		Font font = new Font(((DTextModel)model).getStr(), Font.PLAIN, computeFont(g, (DTextModel)model));
 		
+		
+		Font font = new Font(((DTextModel)model).getType(), Font.PLAIN, computeFont(g, (DTextModel)model));
 		g.setFont(font);
+		
 		g.drawString(((DTextModel)model).getStr(), model.x  , model.y+(int)(model.height*.75));
 		
 		generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(),0);
@@ -29,7 +30,7 @@ public class DText extends DShape{
 	
 	private int computeFont(Graphics g, DTextModel textMod){
 		double size = 1.0;
-		
+	
 		Font font = new Font(textMod.getType(), Font.PLAIN, (int)size);
 		FontMetrics fMetric = g.getFontMetrics(font);
 		

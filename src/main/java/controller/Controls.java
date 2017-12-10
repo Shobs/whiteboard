@@ -49,13 +49,11 @@ public class Controls {
 
 
 	public JPanel createButtons() {
-		container = new JPanel(); // main VerticalBox which contains all
-		// buttons
+		container = new JPanel(); 
 		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
 		container.setPreferredSize(new Dimension(400, 0));
 
-		JPanel shapes = new JPanel(); // first Horizontal panel which contains
-		// all shape
+		JPanel shapes = new JPanel();
 		shapes.setLayout(new BoxLayout(shapes, BoxLayout.LINE_AXIS));
 		shapes.add(new JLabel("ADD : "));
 
@@ -126,7 +124,6 @@ public class Controls {
 		secondPanel.add(setColor);
 		container.add(secondPanel);
 
-		//
 		Box thirdPanel = Box.createHorizontalBox();
 		textString = new JTextField("Hello");
 		textString.setMaximumSize(new Dimension(200, 30));
@@ -135,26 +132,20 @@ public class Controls {
 
 			public void changedUpdate(DocumentEvent e) {
 				canvas.changeContent(textString.getText());
-
 			}
-
 			public void removeUpdate(DocumentEvent e) {
 				canvas.changeContent(textString.getText());
-
 			}
-
 			public void insertUpdate(DocumentEvent e) {
-				canvas.changeContent(textString.getText());
-
+			canvas.changeContent(textString.getText());
 			}
-
 		});
 
 
 		thirdPanel.add(textString);
 		JComboBox<String> fontC = new JComboBox<String>(
 				GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
-		fontC.setSelectedItem("Dialog");
+		fontC.setSelectedItem("Papyrus");
 		fontC.setMaximumSize(new Dimension(200, 30));
 
 		fontC.addActionListener(new ActionListener() {
@@ -278,10 +269,8 @@ public class Controls {
 	{
 		textString.setEditable((canvas.selectedShape instanceof DText));
 		if(canvas.selectedShape instanceof DText )
-		{
 			textString.setText(((DTextModel)canvas.selectedShape.getModel()).getStr());
-		}
-
+		
 		container.remove(tablePane);
 		table = generateTable(canvas.getShapes());
 
@@ -313,17 +302,13 @@ public class Controls {
 
 	//make protected
 	private void open() {
-
 		JFileChooser fchooser = new JFileChooser();
-
 		int retrival = fchooser.showOpenDialog(null);
 		if (retrival == JFileChooser.APPROVE_OPTION) {
 			XMLDecoder d = null;
 			try {
-
 				d = new XMLDecoder(new BufferedInputStream(new FileInputStream(fchooser.getSelectedFile())));
 			} catch (FileNotFoundException e) {
-
 				e.printStackTrace();
 				return;
 			}
@@ -339,11 +324,9 @@ public class Controls {
 		fChooser.setCurrentDirectory(new File("/home/me/Documents"));
 		int retrival = fChooser.showSaveDialog(null);
 		if (retrival == JFileChooser.APPROVE_OPTION) {
-
 			try {
 				ImageIO.write(canvas.BufferedImage(), "PNG", new File(fChooser.getSelectedFile()+".PNG"));
 			} catch (IOException e) {
-
 				e.printStackTrace();
 			}
 		}
@@ -391,13 +374,11 @@ public class Controls {
 	class WelcomeServer extends Thread
 	{
 		private int portNumber;
-		WelcomeServer(int p)
-		{
+		WelcomeServer(int p){
 			portNumber = p;
 		}
 
-		public void run()
-		{
+		public void run(){
 			try{
 				ServerSocket serverSocket = new ServerSocket(portNumber);
 				while(true){
