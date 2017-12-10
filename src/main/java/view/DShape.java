@@ -13,6 +13,10 @@ public class DShape implements ModelListener {
 	protected boolean knobVisibility; // Determines the visbility of the knob to
 										// the user
 
+	public DShape(DShapeModel d)
+	{
+		model = d;
+	}
 	/**
 	 * Method that draws object on canvas
 	 */

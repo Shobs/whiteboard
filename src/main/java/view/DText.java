@@ -8,7 +8,7 @@ import javafx.geometry.Rectangle2D;
 public class DText extends DShape{
 	Graphics g;
 	public DText(DShapeModel model){
-		super.model = model;
+		super(model);
 		System.out.println("Constructor ");
 	}
 
@@ -18,22 +18,16 @@ public class DText extends DShape{
 		
 		this.g = g;
 		g.setColor(model.getColor());
-		
-//		Shape clip = g.getClip();
-	//computeFont(g, (DTextModel)model)
 	
-		Shape clip = g.getClip();
-		
+		Rectangle clip = new Rectangle((int)model.getX() - 4, (int)model.getY() - 4, (int)model.getWidth() + 8, (int)model.getHeight() * 2);
+		g.setClip(clip);
 		Font font = new Font(((DTextModel)model).getStr(), Font.PLAIN, computeFont(g, (DTextModel)model));
 		
 		g.setFont(font);
 		g.drawString(((DTextModel)model).getStr(), model.x  , model.y+(int)(model.height*.75));
 		
-		//g.setClip(clip.getBounds().intersection(getBounds()));
-	
-		// make sure to figure out what to do with where to place the text
 		generateKnobs((int)model.getX(),(int) model.getY(), (int)model.getWidth(), (int) model.getHeight(),0);
-		g.setClip(clip);
+		
 		
 		super.draw(g);
 	}

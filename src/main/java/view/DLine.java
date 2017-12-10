@@ -6,7 +6,7 @@ public class DLine extends DShape{
 	private Graphics g;
 	private DLineModel lineModel = null;
 	public DLine(DShapeModel model){
-		this.model = model;
+		super(model);;
 		lineModel = (DLineModel)model;
 		this.knobs = new Rectangle[2];
 	}    

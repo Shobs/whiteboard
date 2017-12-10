@@ -66,6 +66,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (DShape shape : shapes) {
+			System.out.println("paint co");
 			shape.draw(g);
 		}
 	}
@@ -216,7 +217,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			height = e.getY() - selectedShape.getModel().getY();
 
 		}
-		
+		if(controls.isServer)
+			controls.sendRemote("modify", selectedShape.getModel());
 
 		repaint();
 	}
@@ -267,13 +269,22 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 				selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
 						(int) selectedShape.getModel().getY(), (int) selectedShape.getModel().getWidth(),
 						(int) selectedShape.getModel().getHeight(), anchor);
+				
+			    if (e.getY() < y) {
+                    selectedKnob = ((e.getX() < x)?0:1);
+            } else{
+                    selectedKnob = ((e.getX() < x)?2:3);
+            }
 				}
+				
 				
 			} else {
 
 				moveSelectedShape(e);
 
 			}
+			if(controls.isServer)
+				controls.sendRemote("modify", selectedShape.getModel());
 			repaint();
 			controls.reDraw();
 		}

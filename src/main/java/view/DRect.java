@@ -5,7 +5,7 @@ import java.awt.*;
 public class DRect extends DShape{
 	private Graphics g;
 	public DRect(DShapeModel model){
-		super.model = model;
+		super(model);
 		generateKnobs((int)model.getX(),(int)model.getY(),(int)model.getWidth(),(int)model.getHeight(),0);
 	}
 
