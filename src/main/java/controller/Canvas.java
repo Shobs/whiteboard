@@ -206,6 +206,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		for (DShape d : shapes) {
 			if (d.isSelected(p)) {
 				selectedShape = d;
+				if(controls.isServer)
+					controls.sendRemote("selected", selectedShape.getModel());
 			}
 
 		}

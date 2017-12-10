@@ -508,7 +508,13 @@ public class Controls {
                     	//tableData.add(0, shape.getShapeModel());
                     	break;
                     case "modify":
+                    	
                     	canvas.shapes.get(index).setModel(model);
+                    	canvas.paintComponent(canvas.getGraphics());
+                    	reDraw();
+                    	break;
+                    case "selected":
+                    	canvas.setSelectedShape(shape);
                     	canvas.paintComponent(canvas.getGraphics());
                     	reDraw();
                     	break;

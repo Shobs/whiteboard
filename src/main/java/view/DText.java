@@ -61,25 +61,6 @@ public class DText extends DShape{
 		return (int)size;
 	}
 	
-//	public Font scaleFont(Graphics g, DTextModel model) {
-//		
-//		
-//	    float fontSize=72.0f;
-//	    Font font= new Font(model.getType(), 0, (int)fontSize);
-//	    boolean isBigger = true;
-//	    
-//	    while(isBigger) {                             
-//	            font=g.getFont().deriveFont(fontSize);
-//	            FontMetrics fm=g.getFontMetrics(font);
-//	            int width=fm.stringWidth(text);
-//	            nextTry*=.9;
-//	            if(width <= rect.width)
-//	                isBigger = false;
-//	                        
-//	    }
-//	    int result = (int)Math.min(computeFont(g, textMod), nextTry);
-//	    return result;
-//	}
 	public void modelChanged(DShapeModel model){
 		
 	}
