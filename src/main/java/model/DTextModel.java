@@ -4,6 +4,7 @@ public class DTextModel extends DShapeModel{
 	
 	private String str ;
 	private String type;
+	public 	int size;
 	
 	
 	public DTextModel(int i, int j, int k, int l, String st,String type) {
