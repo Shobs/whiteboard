@@ -23,15 +23,14 @@ public class DShape implements ModelListener {
 				for(int i = 0;  i < 2; i++)
 				{
 					g.setColor(Color.blue);
-					 g.fillRect((int) knobs[i].getX(), (int) knobs[i].getY(), (int) knobs[i].getWidth(), (int) knobs[i].getHeight());
+					g.fillRect((int) knobs[i].getX(), (int) knobs[i].getY(), (int) knobs[i].getWidth(), (int) knobs[i].getHeight());
 				}
-			}else
-			{
-			for (Rectangle r : knobs) {
-				
-				g.setColor(Color.BLUE);
-			 g.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
-			}
+			}else{
+				for (Rectangle r : knobs) {
+
+					g.setColor(Color.BLUE);
+					g.fillRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
+				}
 			}
 		}
 
@@ -81,16 +80,17 @@ public class DShape implements ModelListener {
 
 	/**
 	 * Checks if point on canvas is on a knob
-	 * 
+	 *
 	 * @param p
 	 *            is the point to be checked
 	 * @return the index of the knob which contains the point
 	 */
 	public int isKnob(Point p) {
-		
-		for (int i = 0; i < knobs.length; i++)
+
+		for (int i = 0; i < knobs.length; i++){
 			if (knobs[i].contains(p))
 				return i;
+		}
 		return -1;
 	}
 
@@ -101,9 +101,9 @@ public class DShape implements ModelListener {
 	public void generateKnobs(int x, int y, int width, int height,int anchor) {
 
 //		System.out.println("X = "+ x + "Y " + y+ " width = "+ width+ " h ="+ height + " a = "+ anchor);
-		
-		
-		
+
+
+
 		int w = 8, h = 8;
 		double topLeftX;
 		double topLeftY;
@@ -113,17 +113,17 @@ public class DShape implements ModelListener {
 		double bottomLeftY;
 		double bottomRightX;
 		double bottomRightY;
-		
-		
-		 topLeftX = x;
-		 topLeftY = y;
-		 topRightX = x + width;
-		 topRightY = topLeftY;
-		 bottomLeftX = topLeftX;
-		 bottomLeftY = topLeftY + height;
-		 bottomRightX = topRightX;
-		 bottomRightY = topRightY + height;
-		
+
+
+		topLeftX = x;
+		topLeftY = y;
+		topRightX = x + width;
+		topRightY = topLeftY;
+		bottomLeftX = topLeftX;
+		bottomLeftY = topLeftY + height;
+		bottomRightX = topRightX;
+		bottomRightY = topRightY + height;
+
 		// topLeft
 		knobs[0] = new Rectangle((int) topLeftX - 4, (int) topLeftY - 4, w, h);
 		// topRight
@@ -135,14 +135,14 @@ public class DShape implements ModelListener {
 	}
 
 	public void resize(int X, int Y, int Xa, int Ya) {
-		
+
 		model.setX(Math.min(X, Xa));
 		model.setY(Math.min(Y, Ya));
 		model.setWidth((Math.abs(X - Xa)));
 		model.setHeight(Math.abs(Y - Ya));
-		
+
 		model.notifyListeners();
-		
+
 	}
 
 	public void setModel(DShapeModel model) {
