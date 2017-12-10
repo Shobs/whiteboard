@@ -173,6 +173,7 @@ public class Controls {
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(canvas.selectedShape);
 					canvas.repaint();
+					canvas.paintComponent(canvas.getGraphics());
 					reDraw();
 				}
 			}
@@ -185,6 +186,7 @@ public class Controls {
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.shapes.add(0,canvas.selectedShape);
 					canvas.repaint();
+					canvas.paintComponent(canvas.getGraphics());
 					reDraw();
 				}
 			}
@@ -193,11 +195,9 @@ public class Controls {
 		JButton removeShape = new JButton("Remove Shape");
 		removeShape.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(canvas.selectedShape != null)
-				{
+				if(canvas.selectedShape != null){
 					canvas.shapes.remove(canvas.shapes.indexOf(canvas.selectedShape));
 					canvas.selectedShape = null;
-
 					canvas.repaint();
 					reDraw();
 				}
