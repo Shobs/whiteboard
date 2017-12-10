@@ -86,8 +86,6 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 		Point p = e.getPoint();
 
-
-
 		if (selectedShape != null) {
 			selectedKnob = selectedShape.isKnob(e.getPoint());
 			if (selectedKnob != -1) {
@@ -258,10 +256,12 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 
+
 		if (selectedShape != null) {
 
 			if (selectedKnob != -1) {
 //				selectedKnob = selectedShape.isKnob(e.getPoint());
+
 				if(selectedShape instanceof DLine)
 				{
 					anchor = (selectedKnob == 1)?0:1;
@@ -287,15 +287,14 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 					selectedShape.generateKnobs((int) selectedShape.getModel().getX(),
 						(int) selectedShape.getModel().getY(), (int) selectedShape.getModel().getWidth(),
 						(int) selectedShape.getModel().getHeight(), anchor);
-				
-			    if (e.getY() < y) {
-                    selectedKnob = ((e.getX() < x)?0:1);
-            } else{
-                    selectedKnob = ((e.getX() < x)?2:3);
+
+					if (e.getY() < y) {
+						selectedKnob = ((e.getX() < x)?0:1);
+					} else{
+						selectedKnob = ((e.getX() < x)?2:3);
 					}
-            }
 				}
-				
+
 
 			} else {
 
@@ -307,8 +306,8 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			repaint();
 			controls.reDraw();
 		}
-
 	}
+
 
 	public void moveSelectedShape(MouseEvent e) {
 		Point pm = e.getPoint();
@@ -318,19 +317,17 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 		if(selectedShape instanceof DLine)
 		{
 
-
 			((DLineModel)selectedShape.getModel()).setX1(e.getX() + diffs[0]);
 			((DLineModel)selectedShape.getModel()).setY1(e.getY() + diffs[1]);
 
 			((DLineModel)selectedShape.getModel()).setX2(e.getX() + diffs[2]);
 			((DLineModel)selectedShape.getModel()).setY2(e.getY() + diffs[3]);
 
-		} else {
-
-			selectedShape.getModel().setX((int) (pm.getX() - width));
-			selectedShape.getModel().setY((int) (pm.getY() - height));
-
 		}
+
+		selectedShape.getModel().setX((int) (pm.getX() - width));
+		selectedShape.getModel().setY((int) (pm.getY() - height));
+
 
 
 
@@ -378,6 +375,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	{
 		this.controls = c;
 	}
+
 	public void loadModels(DShapeModel[] models){
 		for(int i = 0; i < shapes.size(); i++ ){
 			shapes.get(i).delete();
