@@ -19,13 +19,7 @@ public class DRect extends DShape{
 		super.draw(g);
 	}
 
-
-	/**
-	 * @Override
-	 */
 	public void modelChanged(DShapeModel mod){
 		isChanged = true;
-
-
 	}
 }

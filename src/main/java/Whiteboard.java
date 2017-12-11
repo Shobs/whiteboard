@@ -1,34 +1,15 @@
 package main.java;
 
-import java.awt.BorderLayout;
-
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.event.MouseInputListener;
-
+import java.awt.*;
+import javax.swing.*;
+import main.java.controller.*;
 import main.java.controller.Canvas;
-import main.java.controller.Controls;
-import main.java.view.DText;
 
 public class Whiteboard extends JFrame {
-	Canvas canvas;
-	Controls controls;
+	private Canvas canvas;
+	private Controls controls;
 
-
+	//Creates controls panel and canvas panel for Whiteboard
 	public Whiteboard() {
 		super("WhiteBoard");
 		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,7 +21,7 @@ public class Whiteboard extends JFrame {
 
 		JPanel buttons = controls.createButtons();
 		canvas.setControls(controls);
-		super.add(canvas, BorderLayout.CENTER); // center of Frame is canvas
+		super.add(canvas, BorderLayout.CENTER);
 		super.add(buttons, BorderLayout.WEST);
 
 		this.pack();

@@ -2,52 +2,33 @@ package main.java.controller;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.beans.*;
+import java.io.*;
+import java.net.*;
 import java.util.*;
-
-import javax.imageio.ImageIO;
+import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.table.*;
-
-import javafx.scene.control.TextInputDialog;
 import main.java.model.*;
 import main.java.view.*;
-import main.java.model.DShapeModel;
 
 public class Controls {
-	Canvas canvas;
-	JTextField textString ;
-	JPanel container;
-	JLabel clientOrServer;
+	protected Canvas canvas;
+	protected JTextField textString ;
+	protected JPanel container;
+	protected JLabel clientOrServer;
 	private JTable table;
 	private JScrollPane tablePane;
 	private ArrayList<ObjectOutputStream> outputs = new ArrayList<ObjectOutputStream>();
 	protected boolean isServer = false;
+	protected boolean isClient = false;
+
 	public Controls(Canvas c) {
 		canvas = c;
 		table= generateTable(canvas.getShapes());
 		tablePane = new JScrollPane(table);
 	}
-
-
-
+	
 	public JPanel createButtons() {
 		container = new JPanel(); 
 		container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
@@ -74,7 +55,6 @@ public class Controls {
 				DOvalModel oval = new DOvalModel();
 				canvas.addShape(oval);
 				canvas.paintComponent(canvas.getGraphics());
-
 			}
 		});
 		shapes.add(oval);
@@ -85,12 +65,10 @@ public class Controls {
 				DLineModel line = new DLineModel();
 				canvas.addShape(line);
 				canvas.paintComponent(canvas.getGraphics());
-
 			}
 		});
 		shapes.add(line);
-
-
+		
 		JButton text = new JButton("Text");
 		text.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -109,15 +87,13 @@ public class Controls {
 		JButton setColor = new JButton("setColor");
 		setColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(canvas.selectedShape != null)
-				{
+				if(canvas.selectedShape != null){
 					Color initialBackground = canvas.selectedShape.getModel().getColor();
 					Color background = JColorChooser.showDialog(null,
 							"JColorChooser Sample", initialBackground);
 					canvas.selectedShape.getModel().setColor(background);
 					canvas.repaint();
 				}
-
 			}
 
 		});
@@ -137,10 +113,9 @@ public class Controls {
 				canvas.changeContent(textString.getText());
 			}
 			public void insertUpdate(DocumentEvent e) {
-			canvas.changeContent(textString.getText());
+				canvas.changeContent(textString.getText());
 			}
 		});
-
 
 		thirdPanel.add(textString);
 		JComboBox<String> fontC = new JComboBox<String>(
@@ -192,8 +167,6 @@ public class Controls {
 					canvas.repaint();
 					reDraw();
 				}
-
-
 			}
 		});
 		fourthPanel.add(removeShape);
@@ -215,8 +188,7 @@ public class Controls {
 
 		fifth.add(openButton);
 		fifth.add(saveButton);
-
-
+		
 		JButton saveAsButton = new JButton("Save As PNG");
 		saveAsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -226,11 +198,8 @@ public class Controls {
 
 		fifth.add(saveAsButton);		
 		container.add(fourthPanel);
-
 		container.add(fifth);
-
-
-		//Server and Clinets 
+ 
 		Box sixth = Box.createHorizontalBox();
 		JButton startServerButton = new JButton("Start Server");
 		startServerButton.addActionListener(new ActionListener() {
@@ -251,7 +220,6 @@ public class Controls {
 		clientOrServer = new JLabel("");
 		sixth.add(clientOrServer);
 
-
 		container.add(sixth);
 
 		container.add(tablePane);
@@ -265,12 +233,11 @@ public class Controls {
 	}
 
 
-	public void reDraw()
-	{
+	public void reDraw(){
 		textString.setEditable((canvas.selectedShape instanceof DText));
 		if(canvas.selectedShape instanceof DText )
 			textString.setText(((DTextModel)canvas.selectedShape.getModel()).getStr());
-		
+
 		container.remove(tablePane);
 		table = generateTable(canvas.getShapes());
 
@@ -280,7 +247,7 @@ public class Controls {
 		container.repaint();
 	}
 
-	private void save() {
+	private void save(){
 
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File("C:\\Users\\anis\\Documents\\CS151"));
@@ -300,7 +267,6 @@ public class Controls {
 
 	}
 
-	//make protected
 	private void open() {
 		JFileChooser fchooser = new JFileChooser();
 		int retrival = fchooser.showOpenDialog(null);
@@ -318,8 +284,7 @@ public class Controls {
 		}
 	}
 
-	private void saveAsImage() {
-
+	private void saveAsImage(){
 		JFileChooser fChooser = new JFileChooser();
 		fChooser.setCurrentDirectory(new File("/home/me/Documents"));
 		int retrival = fChooser.showSaveDialog(null);
@@ -348,8 +313,6 @@ public class Controls {
 			WelcomeServer ws = new WelcomeServer(Integer.parseInt(PortNumber.getText()));
 			ws.start();
 
-		}else{
-			return;
 		}
 	}
 	private void startClient(){
@@ -362,22 +325,20 @@ public class Controls {
 		};
 		int result = JOptionPane.showConfirmDialog(null, inputs, "Client", JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_OPTION,new ImageIcon("Images/url.png"));
 		if (result == JOptionPane.OK_OPTION) {
+			enableComponents(container, false);
+			canvas.setMouseEvents(false);
 			clientOrServer.setText("Client Mode");
 			ClientHandler ch = new ClientHandler("127.0.0.1", Integer.parseInt(PortNumber.getText()) );
 			ch.start();
-		}else{
-			return;
 		}
 	}
 
 
-	class WelcomeServer extends Thread
-	{
+	class WelcomeServer extends Thread{
 		private int portNumber;
 		WelcomeServer(int p){
 			portNumber = p;
 		}
-
 		public void run(){
 			try{
 				ServerSocket serverSocket = new ServerSocket(portNumber);
@@ -421,7 +382,7 @@ public class Controls {
 					DShapeModel[] models = (DShapeModel[]) decoder.readObject();
 					System.out.println("action");
 					ArrayList<DShape> shapes = new ArrayList<DShape>();
-					
+
 					for(DShapeModel dsm : models)
 						shapes.add(dsm.createShape());
 					canvas.setShapes(shapes);
@@ -473,5 +434,14 @@ public class Controls {
 			}
 		}
 	}
+
+	public void enableComponents(Container container, boolean enable){
+		Component[] components = container.getComponents();
+		for (Component component : components) {
+			component.setEnabled(enable);
+			if (component instanceof Container) 
+				enableComponents((Container)component, enable);
+		}
+	}		
 }
 

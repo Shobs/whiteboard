@@ -19,10 +19,6 @@ public class DOval extends DShape{
 		super.draw(g);
 	}
 
-		
-	/**
-	 * @Override
-	 */
 	public void modelChanged(DShapeModel model){
 		isChanged = true;
 	} 

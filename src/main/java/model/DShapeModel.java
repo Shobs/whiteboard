@@ -52,25 +52,22 @@ public class DShapeModel extends Rectangle {
 		return c;
 	}
 
-	public void setX(int x)
-	{
+	public void setX(int x){
 		this.x = x;
 		notifyListeners();
 	}
-	public void setY(int y)
-	{
+	
+	public void setY(int y){
 		this.y = y;
 		notifyListeners();
 	}
 
-	public void setWidth(int w)
-	{
+	public void setWidth(int w){
 		width = w;
 		notifyListeners();
 	}
 
-	public void setHeight(int h)
-	{
+	public void setHeight(int h){
 		height = h;
 		notifyListeners();
 	}

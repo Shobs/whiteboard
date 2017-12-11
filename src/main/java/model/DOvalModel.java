@@ -8,6 +8,6 @@ public class DOvalModel extends DShapeModel{
 
 	public DOvalModel() {
 		super(150,150,100,100);
-		// TODO Auto-generated constructor stub
+		
 	}
 }

@@ -1,40 +1,25 @@
 package main.java.controller;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.RenderedImage;
-import java.util.ArrayList;
-import java.awt.image.BufferedImage;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.event.MouseInputListener;
-
-//import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
-import main.java.model.DLineModel;
-import main.java.model.DOvalModel;
-import main.java.model.DRectModel;
-import main.java.model.DShapeModel;
-import main.java.model.DTextModel;
-import main.java.view.DLine;
-import main.java.view.DOval;
-import main.java.view.DRect;
-import main.java.view.DShape;
-import main.java.view.DText;
-import main.java.view.ModelListener;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import main.java.model.*;
+import main.java.view.*;
 
 public class Canvas extends JPanel implements MouseInputListener, ModelListener {
-	ArrayList<DShape> shapes;
-	DShape selectedShape = null;
-	double width;
-	double height;
-	int selectedKnob = -1;
-	boolean change = true;
-	int anchor;
-	int[] diffs;
-	Controls controls;
-
+	protected ArrayList<DShape> shapes;
+	protected DShape selectedShape = null;
+	protected double width;
+	protected double height;
+	protected int selectedKnob = -1;
+	protected boolean change = true;
+	protected int anchor;
+	protected int[] diffs;
+	protected boolean mouseEvents = true;
+	protected Controls controls;
 
 	public Canvas() {
 		super();
@@ -47,12 +32,10 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	}
 
 
-	public DShapeModel[] getModels()
-	{
+	public DShapeModel[] getModels(){
 		DShapeModel[] models = new DShapeModel[shapes.size()];
-		for(int i = 0; i < shapes.size(); i++){
+		for(int i = 0; i < shapes.size(); i++)
 			models[i] = shapes.get(i).getModel();
-		}
 		return  models;
 	}
 	
@@ -81,7 +64,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-
+		if(!mouseEvents) return;
 		Point p = e.getPoint();
 
 		if (selectedShape != null) {
@@ -103,8 +86,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 				selectedShape = d;
 		}
 
-		if (selectedShape != null) {
-
+		if (selectedShape != null){
 			if(selectedShape instanceof DLine){
 				int x1 = (int)((DLineModel)selectedShape.getModel()).getX1();
 				int x2 = (int)((DLineModel)selectedShape.getModel()).getX2();
@@ -121,7 +103,6 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			width = e.getX() - selectedShape.getModel().getX();
 			height = e.getY() - selectedShape.getModel().getY();
 		}
-
 		controls.reDraw();
 		repaint();
 	}
@@ -142,9 +123,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			case 3:
 			anchor = 0;
 			break;
-
 		}
-
 		return anchor;
 	}
 
@@ -162,7 +141,6 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			shapes.add(ov);
 			model.addListener(this);
 			model.addListener(ov);
-			;
 
 		} else if (model instanceof DLineModel) {
 			DLine ln = new DLine(model);
@@ -184,6 +162,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(!mouseEvents) return;
 		Point p = e.getPoint();
 
 		if (selectedShape != null) {
@@ -197,12 +176,9 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 			}
 		}
 
-		for (DShape d : shapes) {
-			if (d.isSelected(p)) {
+		for (DShape d : shapes) 
+			if (d.isSelected(p)) 
 				selectedShape = d;
-			}
-
-		}
 
 		if (selectedShape != null) {
 			selectedShape.setKnobVisibility(true);
@@ -216,20 +192,21 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if(!mouseEvents) return;
 		change = true;
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) { if(!mouseEvents) return;}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		if(!mouseEvents) return;
 		if (selectedShape != null) {
 			if (selectedKnob != -1) {
 				if(selectedShape instanceof DLine)
 				{
 					anchor = (selectedKnob == 1)?0:1;
-
 					if(anchor == 0)
 					{
 						((DLineModel)selectedShape.getModel()).setX2((int) (e.getX()));
@@ -260,9 +237,7 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 				}
 
 
-			} else {
-				moveSelectedShape(e);
-			}
+			} else moveSelectedShape(e);
 			repaint();
 			controls.reDraw();
 		}
@@ -285,10 +260,10 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) { if(!mouseEvents) return;}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e) { if(!mouseEvents) return;}
 
 	@Override
 	public void modelChanged(DShapeModel model) {
@@ -298,7 +273,6 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 
 	public void changeFont(String nType){
-
 		if(selectedShape != null && (selectedShape.getModel() instanceof DTextModel)){
 			DTextModel text = (DTextModel)selectedShape.getModel();
 			text.setType(nType);
@@ -327,7 +301,6 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 
 	public RenderedImage BufferedImage() {
 		BufferedImage render = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
 		Graphics graph = render.getGraphics();
 		DShape currentShape = selectedShape;
 		selectedShape = null;
@@ -339,4 +312,6 @@ public class Canvas extends JPanel implements MouseInputListener, ModelListener 
 	public ArrayList<DShape> getShapes(){ return shapes; }
 	
 	public void setShapes(ArrayList<DShape> shapes){ this.shapes = shapes;}
+	
+	public void setMouseEvents(boolean b){ mouseEvents = b; }
 }

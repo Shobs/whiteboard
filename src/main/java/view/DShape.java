@@ -56,9 +56,7 @@ public class DShape implements ModelListener {
 		model = null;
 	}
 
-	public void modelChanged(DShapeModel model) {
-
-	}
+	public void modelChanged(DShapeModel model){}
 
 	public DShapeModel getModel() {
 		return model;
